@@ -5,9 +5,9 @@ import { Button } from 'react-native-paper';
 export default function LoginScreen({ navigation }) {
   return (
     <View >
-        <Text>Home Screen</Text>
+        <Text>login Screen</Text>
         <Button
-          title="Go to Homw Screen"
+          title="Go to Home Screen"
           onPress={() => navigation.navigate('Home')}
         />
       </View>
