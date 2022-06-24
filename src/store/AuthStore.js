@@ -4,7 +4,7 @@ import { persist,devtools } from 'zustand/middleware'
 
 
 const authStore = (set) => ({
-    isLogin: true,
+    isLogin: false,
     successLogin: () => set({ isLogin: true }),
     successLogout: () => set({ isLogin: false }),
 })

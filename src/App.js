@@ -1,10 +1,12 @@
 import React from "react";
-import { NavigationContainer } from "@react-navigation/native";
 import  Router  from "./routes/Router";
-
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 export default function App() {
   return (
-        <Router/>
+    <SafeAreaProvider>
+      <Router/>
+    </SafeAreaProvider>
   );
+        
 }
