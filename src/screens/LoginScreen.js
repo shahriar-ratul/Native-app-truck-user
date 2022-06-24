@@ -6,73 +6,102 @@ import { useFonts } from "expo-font";
 import Loading from "../components/Loading";
 import { Formik } from "formik";
 import * as Yup from "yup";
+import createAuthStore from "../store/AuthStore";
 export default function LoginScreen({ navigation }) {
+  const [error, setError] = useState(null);
   const [fontsLoaded] = useFonts({
     "Roboto-Medium": require("./../assets/fonts/Roboto-Medium.ttf"),
   });
 
+  const isLogin = createAuthStore((state) => state.isLogin);
+  const successLogin = createAuthStore((state) => state.successLogin);
   if (!fontsLoaded) {
     return <Loading />;
   }
   return (
-    <SafeAreaView style={{ flex: 1, justifyContent: "center" }}>
-      <View style={{ alignItems: "center" }}>
-        <Image
-          source={require("./../assets/images/logo.png")}
-          style={{ width: 300, height: 100, marginBottom: 30 }}
-        />
-      </View>
+    <Formik
+      initialValues={{ email: "", password: "" }}
+      validationSchema={Yup.object().shape({
+        email: Yup.string().email().required("Email is required"),
+        password: Yup.string()
+          .min(4)
+          .max(200, "Password should not exceed 200 chars.")
+          .required(),
+      })}
+      onSubmit={async (values) => {
+        successLogin();
+        
+        // const res = await axios
+        //   .post(
+        //     "/api/admin/login",
+        //     {
+        //       username: values.email,
+        //       password: values.password,
+        //     },
+        //     headers
+        //   )
+        //   .then((res) => {
+        //     if (res.data.success) {
+        //       navigation.navigate("Home");
+        //     }
+        //   })
+        //   .catch((err) => {
+        //     console.log(err);
+        //     setError(err.response.data.message);
+        //   });
+      }}
+    >
+      {({
+        values,
+        handleChange,
+        errors,
+        setFieldTouched,
+        touched,
+        isValid,
+        handleSubmit,
+      }) => (
+        <SafeAreaView style={{ flex: 1, justifyContent: "center" }}>
+          <View style={{ alignItems: "center" }}>
+            <Image
+              source={require("./../assets/images/logo.png")}
+              style={{ width: 300, height: 100, marginBottom: 30 }}
+            />
+          </View>
 
-      <Text
-        style={{
-          fontFamily: "Roboto-Medium",
-          fontSize: 28,
-          fontWeight: "500",
-          color: "blue",
-          marginBottom: 15,
-          textAlign: "center",
-        }}
-      >
-        Welcome back!
-      </Text>
-      <Text
-        style={{
-          fontFamily: "Roboto-Medium",
-          fontSize: 28,
-          fontWeight: "500",
-          color: "#333",
-          marginBottom: 30,
-          textAlign: "center",
-        }}
-      >
-        Please login to your account.
-      </Text>
+          <Text
+            style={{
+              fontFamily: "Roboto-Medium",
+              fontSize: 28,
+              fontWeight: "500",
+              color: "blue",
+              marginBottom: 15,
+              textAlign: "center",
+            }}
+          >
+            Welcome back!
+          </Text>
+          <Text
+            style={{
+              fontFamily: "Roboto-Medium",
+              fontSize: 28,
+              fontWeight: "500",
+              color: "#333",
+              marginBottom: 30,
+              textAlign: "center",
+            }}
+          >
+            Please login to your account.
+          </Text>
 
-      <Formik
-        initialValues={{ email: "", password: "" }}
-        validationSchema={Yup.object().shape({
-          email: Yup.string().email().required("Email is required"),
-          password: Yup.string()
-            .min(4)
-            .max(200, "Password should not exceed 200 chars.")
-            .required(),
-        })}
-        onSubmit={(values) =>
-          console.log(`Form data: ${JSON.stringify(values)}`
-
-
-          )}
-      >
-        {({
-          values,
-          handleChange,
-          errors,
-          setFieldTouched,
-          touched,
-          isValid,
-          handleSubmit,
-        }) => (
           <View>
+            {error && (
+              <Text
+                style={{ fontSize: 12, color: "#FF0D10", textAlign: "center" }}
+              >
+                {error}
+              </Text>
+            )}
+
             <View style={{ display: "flex", flexDirection: "row" }}>
               <IconButton icon="email" size={30} />
               <TextInput
@@ -131,9 +160,24 @@ export default function LoginScreen({ navigation }) {
                 Login
               </Button>
             </View>
+            <View
+              style={{ alignItems: "center", marginTop: 30, marginBottom: 30 }}
+            >
+              <Text style={{ fontSize: 16, color: "#333" }}>
+                Don't have an account?{" "}
+                </Text>
+              <Button
+                style={{ width: "50%" }}
+                icon="login"
+                mode="text"
+                onPress={() => navigation.navigate("Register")}
+              >
+                Register
+              </Button>
+            </View>
           </View>
-        )}
-      </Formik>
-    </SafeAreaView>
+        </SafeAreaView>
+      )}
+    </Formik>
   );
 }

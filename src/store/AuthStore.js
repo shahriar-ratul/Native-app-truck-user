@@ -1,6 +1,6 @@
 import create from 'zustand'
 import { persist,devtools } from 'zustand/middleware'
-
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 const authStore = (set) => ({
@@ -14,6 +14,8 @@ const createAuthStore = create(
     devtools(
         persist(authStore, {
             name: "Auth",
+            getStorage: () => AsyncStorage, // Add this here!
+              
         })
     )
 )

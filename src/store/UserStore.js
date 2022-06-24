@@ -15,6 +15,7 @@ const createUserStore = create(
     devtools(
         persist(userStore, {
             name: "User",
+            getStorage: () => AsyncStorage, // Add this here!
         })
     )
 )

@@ -13,6 +13,7 @@ const createAppStore = create(
     devtools(
         persist(appStore, {
             name: "App",
+            getStorage: () => AsyncStorage, // Add this here!
         })
     )
 )
