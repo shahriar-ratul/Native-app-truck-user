@@ -8,13 +8,13 @@ import { Formik } from "formik";
 import * as Yup from "yup";
 import createAuthStore from "../store/AuthStore";
 export default function LoginScreen({ navigation }) {
+  const isLogin = createAuthStore((state) => state.isLogin);
+  const successLogin = createAuthStore((state) => state.successLogin);
   const [error, setError] = useState(null);
   const [fontsLoaded] = useFonts({
     "Roboto-Medium": require("./../assets/fonts/Roboto-Medium.ttf"),
   });
 
-  const isLogin = createAuthStore((state) => state.isLogin);
-  const successLogin = createAuthStore((state) => state.successLogin);
   if (!fontsLoaded) {
     return <Loading />;
   }
@@ -30,7 +30,7 @@ export default function LoginScreen({ navigation }) {
       })}
       onSubmit={async (values) => {
         successLogin();
-        
+
         // const res = await axios
         //   .post(
         //     "/api/admin/login",
@@ -165,7 +165,7 @@ export default function LoginScreen({ navigation }) {
             >
               <Text style={{ fontSize: 16, color: "#333" }}>
                 Don't have an account?{" "}
-                </Text>
+              </Text>
               <Button
                 style={{ width: "50%" }}
                 icon="login"
