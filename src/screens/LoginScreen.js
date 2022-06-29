@@ -6,14 +6,17 @@ import { useFonts } from "expo-font";
 import Loading from "../components/Loading";
 import { Formik } from "formik";
 import * as Yup from "yup";
+import {BASE_URL} from "../config/index"
 import createAuthStore from "../store/AuthStore";
+import axios from "axios";
 export default function LoginScreen({ navigation }) {
-  const isLogin = createAuthStore((state) => state.isLogin);
+  const setToken = createAuthStore((state) => state.setToken);
   const successLogin = createAuthStore((state) => state.successLogin);
   const [error, setError] = useState(null);
   const [fontsLoaded] = useFonts({
     "Roboto-Medium": require("./../assets/fonts/Roboto-Medium.ttf"),
   });
+
 
   if (!fontsLoaded) {
     return <Loading />;
@@ -29,26 +32,33 @@ export default function LoginScreen({ navigation }) {
           .required(),
       })}
       onSubmit={async (values) => {
-        successLogin();
+        
 
-        // const res = await axios
-        //   .post(
-        //     "/api/admin/login",
-        //     {
-        //       username: values.email,
-        //       password: values.password,
-        //     },
-        //     headers
-        //   )
-        //   .then((res) => {
-        //     if (res.data.success) {
-        //       navigation.navigate("Home");
-        //     }
-        //   })
-        //   .catch((err) => {
-        //     console.log(err);
-        //     setError(err.response.data.message);
-        //   });
+        try {
+          await axios.post(`${BASE_URL}/api/user/login`,
+          {
+            username: values.email,
+            password: values.password,
+          }
+        )
+        .then((res) => {
+          // console.log(res);
+          if (res.data.success) {
+            setToken(res.data.data.token);
+            successLogin();
+          }
+         
+        })
+        .catch((err) => {
+          // console.log(err);
+          setError(err.response.data.message);
+
+        })
+
+        }catch{
+          setError("Something went wrong");
+        }
+
       }}
     >
       {({
@@ -96,7 +106,14 @@ export default function LoginScreen({ navigation }) {
           <View>
             {error && (
               <Text
-                style={{ fontSize: 12, color: "#FF0D10", textAlign: "center" }}
+              style={{
+                fontFamily: "Roboto-Medium",
+                fontSize: 20,
+                fontWeight: "500",
+                color: "red",
+                marginBottom: 10,
+                textAlign: "center",
+              }}
               >
                 {error}
               </Text>

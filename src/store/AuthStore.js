@@ -4,7 +4,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 const authStore = (set) => ({
-    isLogin: true,
+    isLogin: false,
     token : null,
     user : null,
     setToken : (token) => set(state => ({...state,token})),

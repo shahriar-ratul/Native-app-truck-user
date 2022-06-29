@@ -8,10 +8,9 @@ const Router = () => {
 
   const isLogin = createAuthStore((state) => state.isLogin)
 
-
   return (
     <NavigationContainer>
-      { isLogin ? <AppStack /> : <AuthStack />  }
+      { isLogin === true ? <AppStack /> : <AuthStack />  }
     </NavigationContainer>
   )
 

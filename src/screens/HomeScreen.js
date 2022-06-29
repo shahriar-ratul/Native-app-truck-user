@@ -16,6 +16,7 @@ import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplet
 import {GOOGLE_MAP_API_KEY} from '@env'
 import userLocationStore from "../store/UserLocation";
 import { SafeAreaView } from "react-native-safe-area-context";
+import Header from "../components/Header";
 
 export default function HomeScreen({ navigation }) {
   const startLocation = userLocationStore((state)=> state.startLocation);
@@ -31,7 +32,10 @@ export default function HomeScreen({ navigation }) {
   }
 
   return (
+    <>
+     <Header />
     <SafeAreaView>
+
       <View style={tw`pb-4`}>
         <Image
           source={require("./../assets/images/logo.png")}
@@ -73,5 +77,6 @@ export default function HomeScreen({ navigation }) {
 
 
     </SafeAreaView>
+    </>
   );
 }
