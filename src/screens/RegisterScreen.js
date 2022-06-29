@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Image, Text } from "react-native";
+import { View, Image, Text, KeyboardAvoidingView, ScrollView } from "react-native";
 import { Button, IconButton, TextInput } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useFonts } from "expo-font";
@@ -7,48 +7,80 @@ import Loading from "../components/Loading";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import createAuthStore from "../store/AuthStore";
+import axios from "axios";
+import { BASE_URL } from "../config";
 export default function RegisterScreen({ navigation }) {
   const [error, setError] = useState(null);
   const [fontsLoaded] = useFonts({
     "Roboto-Medium": require("./../assets/fonts/Roboto-Medium.ttf"),
   });
 
-  const isLogin = createAuthStore((state) => state.isLogin);
+  const setPhone = createAuthStore((state) => state.setPhone);
+  const removeOtpVerify = createAuthStore((state) => state.removeOtpVerify);
+  const phone = createAuthStore((state) => state.phone);
   const successLogin = createAuthStore((state) => state.successLogin);
   if (!fontsLoaded) {
     return <Loading />;
   }
   return (
     <Formik
-      initialValues={{ email: "", password: "" }}
+      initialValues={{
+        first_name: "",
+        last_name: "",
+        username: "",
+        email: "",
+        phone: phone,
+        password: "",
+        role: 'user',
+         }}
       validationSchema={Yup.object().shape({
-        email: Yup.string().email().required("Email is required"),
+        first_name: Yup.string()
+          .max(30, "Must be 50 characters or less")
+          .required("Please enter your first name"),
+        last_name: Yup.string()
+          .max(30, "Must be 50 characters or less")
+          .required("Please enter your last name"),
+        username: Yup.string()
+          .max(30, "Must be 50 characters or less")
+          .required("Please enter your username"),
+        email: Yup.string()
+          .email("Invalid email address")
+          .required("Please enter your email"),
         password: Yup.string()
-          .min(4)
-          .max(200, "Password should not exceed 200 chars.")
-          .required(),
+          .min(6, "Password must be at least 6 characters")
+          .required("Please enter your password"),
       })}
       onSubmit={async (values) => {
-        successLogin();
-        navigation.navigate("Home");
-        // const res = await axios
-        //   .post(
-        //     "/api/admin/login",
-        //     {
-        //       username: values.email,
-        //       password: values.password,
-        //     },
-        //     headers
-        //   )
-        //   .then((res) => {
-        //     if (res.data.success) {
-        //       navigation.navigate("Home");
-        //     }
-        //   })
-        //   .catch((err) => {
-        //     console.log(err);
-        //     setError(err.response.data.message);
-        //   });
+        try{
+          await axios.post(
+              `${BASE_URL}/api/register`,
+              {
+                first_name: values.first_name,
+                last_name: values.last_name,
+                username: values.username,
+                email: values.email,
+                phone: values.phone,
+                password: values.password,
+                role: values.role,
+              }
+            )
+            .then((res) => {
+              if (res.data.success) {
+                removeOtpVerify();
+                setPhone(null);
+                navigation.navigate("Login");
+              }
+            })
+            .catch((err) => {
+              // console.log(err.response.data);
+              setError(err.response.data.error.error_message);
+            });
+          }catch{
+            setError("Something went wrong");
+          }
+        
+   
+       
       }}
     >
       {({
@@ -61,6 +93,8 @@ export default function RegisterScreen({ navigation }) {
         handleSubmit,
       }) => (
         <SafeAreaView style={{ flex: 1, justifyContent: "center" }}>
+          <ScrollView>
+          <KeyboardAvoidingView>
           <View style={{ alignItems: "center" }}>
             <Image
               source={require("./../assets/images/logo.png")}
@@ -84,9 +118,83 @@ export default function RegisterScreen({ navigation }) {
           <View>
             {error && (
               <Text
-                style={{ fontSize: 12, color: "#FF0D10", textAlign: "center" }}
+                style={{ fontSize: 16, color: "#FF0D10", textAlign: "center" }}
               >
                 {error}
+              </Text>
+            )}
+
+            
+            <View style={{ display: "flex", flexDirection: "row" }}>
+              <IconButton icon="account-circle" size={30} />
+              <TextInput
+                style={{ width: "80%" }}
+                label="First Name"
+                mode="flat"
+                selectTextOnFocus={true}
+                placeholder="Enter your First Name"
+                placeholderTextColor="black"
+                keyboardType="default"
+                onChangeText={handleChange("first_name")}
+                onBlur={() => setFieldTouched("first_name")}
+                value={values.first_name}
+              />
+            </View>
+
+            {touched.first_name && errors.first_name && (
+              <Text
+                style={{ fontSize: 12, color: "#FF0D10", textAlign: "center" }}
+              >
+                {errors.first_name}
+              </Text>
+            )}
+
+            
+            <View style={{ display: "flex", flexDirection: "row" }}>
+              <IconButton icon="account-circle" size={30} />
+              <TextInput
+                style={{ width: "80%" }}
+                label="Last Name"
+                mode="flat"
+                selectTextOnFocus={true}
+                placeholder="Enter your Last Name"
+                placeholderTextColor="black"
+                keyboardType="default"
+                onChangeText={handleChange("last_name")}
+                onBlur={() => setFieldTouched("last_name")}
+                value={values.last_name}
+              />
+            </View>
+
+            {touched.last_name && errors.last_name && (
+              <Text
+                style={{ fontSize: 12, color: "#FF0D10", textAlign: "center" }}
+              >
+                {errors.last_name}
+              </Text>
+            )}      
+
+            <View style={{ display: "flex", flexDirection: "row" }}>
+              <IconButton icon="account-circle" size={30} />
+              <TextInput
+                style={{ width: "80%" }}
+                label="username"
+                mode="flat"
+                selectTextOnFocus={true}
+                placeholder="Enter your username"
+                placeholderTextColor="black"
+                keyboardType="default"
+                onChangeText={handleChange("username")}
+                onBlur={() => setFieldTouched("username")}
+                value={values.username}
+              />
+            </View>
+
+            {touched.username && errors.username && (
+              <Text
+                style={{ fontSize: 12, color: "#FF0D10", textAlign: "center" }}
+              >
+                {errors.userusername}
               </Text>
             )}
 
@@ -164,6 +272,8 @@ export default function RegisterScreen({ navigation }) {
               </Button>
             </View>
           </View>
+          </KeyboardAvoidingView>
+          </ScrollView>
         </SafeAreaView>
       )}
     </Formik>
