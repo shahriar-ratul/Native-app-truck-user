@@ -7,48 +7,48 @@ import Loading from "../components/Loading";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import createAuthStore from "../store/AuthStore";
+import { BASE_URL } from "../config";
+import axios from "axios";
 export default function PhoneScreen({ navigation }) {
   const [error, setError] = useState(null);
+  const phone = createAuthStore((state) => state.phone);
+  const successOtpVerify = createAuthStore((state) => state.successOtpVerify);
   const [fontsLoaded] = useFonts({
     "Roboto-Medium": require("./../assets/fonts/Roboto-Medium.ttf"),
   });
 
-  const isLogin = createAuthStore((state) => state.isLogin);
-  const successLogin = createAuthStore((state) => state.successLogin);
   if (!fontsLoaded) {
     return <Loading />;
   }
   return (
     <Formik
-      initialValues={{ email: "", password: "" }}
+      initialValues={{ otp: ""}}
       validationSchema={Yup.object().shape({
-        email: Yup.string().email().required("Email is required"),
-        password: Yup.string()
-          .min(4)
-          .max(200, "Password should not exceed 200 chars.")
-          .required(),
+        otp: Yup.string().required("Otp is required"),
+      
       })}
       onSubmit={async (values) => {
-        successLogin();
-        navigation.navigate("Home");
-        // const res = await axios
-        //   .post(
-        //     "/api/admin/login",
-        //     {
-        //       username: values.email,
-        //       password: values.password,
-        //     },
-        //     headers
-        //   )
-        //   .then((res) => {
-        //     if (res.data.success) {
-        //       navigation.navigate("Home");
-        //     }
-        //   })
-        //   .catch((err) => {
-        //     console.log(err);
-        //     setError(err.response.data.message);
-        //   });
+        try{
+          await axios.post(
+              `${BASE_URL}/api/otp/verify`,
+              {
+                phone_no: phone,
+                otp: values.otp,
+              }
+            )
+            .then((res) => {
+              if (res.data.success) {
+                successOtpVerify();
+                navigation.navigate("Register");
+              }
+            })
+            .catch((err) => {
+              console.log(err);
+              setError(err.response.data.message);
+            });
+          }catch{
+            setError("Something went wrong");
+          }
       }}
     >
       {({
@@ -78,20 +78,9 @@ export default function PhoneScreen({ navigation }) {
               textAlign: "center",
             }}
           >
-            Welcome back!
+            Please Enter Your Otp
           </Text>
-          <Text
-            style={{
-              fontFamily: "Roboto-Medium",
-              fontSize: 28,
-              fontWeight: "500",
-              color: "#333",
-              marginBottom: 30,
-              textAlign: "center",
-            }}
-          >
-            Please login to your account.
-          </Text>
+
 
           <View>
             {error && (
@@ -103,48 +92,24 @@ export default function PhoneScreen({ navigation }) {
             )}
 
             <View style={{ display: "flex", flexDirection: "row" }}>
-              <IconButton icon="email" size={30} />
-              <TextInput
-                style={{ width: "80%" }}
-                label="Email"
-                mode="flat"
-                selectTextOnFocus={true}
-                placeholder="Enter your email"
-                placeholderTextColor="black"
-                keyboardType="email-address"
-                onChangeText={handleChange("email")}
-                onBlur={() => setFieldTouched("email")}
-                value={values.email}
-              />
-            </View>
-
-            {touched.email && errors.email && (
-              <Text
-                style={{ fontSize: 12, color: "#FF0D10", textAlign: "center" }}
-              >
-                {errors.email}
-              </Text>
-            )}
-
-            <View style={{ display: "flex", flexDirection: "row" }}>
               <IconButton icon="key" size={30} />
               <TextInput
                 style={{ width: "80%" }}
-                label="Password"
+                label="Otp"
                 mode="flat"
-                placeholder="Enter your password"
+                keyboardType="phone-pad"
+                placeholder="Enter your otp"
                 placeholderTextColor="black"
-                secureTextEntry={true}
-                onChangeText={handleChange("password")}
-                onBlur={() => setFieldTouched("password")}
-                value={values.password}
+                onChangeText={handleChange("otp")}
+                onBlur={() => setFieldTouched("otp")}
+                value={values.otp}
               />
             </View>
-            {touched.password && errors.password && (
+            {touched.otp && errors.otp && (
               <Text
                 style={{ fontSize: 12, color: "#FF0D10", textAlign: "center" }}
               >
-                {errors.password}
+                {errors.otp}
               </Text>
             )}
 
@@ -157,7 +122,7 @@ export default function PhoneScreen({ navigation }) {
                 mode="contained"
                 onPress={handleSubmit}
               >
-                Register
+                Submit
               </Button>
             </View>
             <View

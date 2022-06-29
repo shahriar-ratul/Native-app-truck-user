@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Image, Text } from "react-native";
+import { View, Image, Text, KeyboardAvoidingView, ScrollView } from "react-native";
 import { Button, IconButton, TextInput } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useFonts } from "expo-font";
@@ -12,6 +12,7 @@ import axios from "axios";
 export default function LoginScreen({ navigation }) {
   const setToken = createAuthStore((state) => state.setToken);
   const successLogin = createAuthStore((state) => state.successLogin);
+  const OtpVerify = createAuthStore((state) => state.OtpVerify);
   const [error, setError] = useState(null);
   const [fontsLoaded] = useFonts({
     "Roboto-Medium": require("./../assets/fonts/Roboto-Medium.ttf"),
@@ -71,6 +72,8 @@ export default function LoginScreen({ navigation }) {
         handleSubmit,
       }) => (
         <SafeAreaView style={{ flex: 1, justifyContent: "center" }}>
+          <ScrollView>
+          <KeyboardAvoidingView>
           <View style={{ alignItems: "center" }}>
             <Image
               source={require("./../assets/images/logo.png")}
@@ -187,12 +190,15 @@ export default function LoginScreen({ navigation }) {
                 style={{ width: "50%" }}
                 icon="login"
                 mode="text"
-                onPress={() => navigation.navigate("Register")}
+
+                onPress={() => OtpVerify === true ?navigation.navigate("Register")  : navigation.navigate("Otp")}
               >
                 Register
               </Button>
             </View>
           </View>
+          </KeyboardAvoidingView>
+          </ScrollView>
         </SafeAreaView>
       )}
     </Formik>

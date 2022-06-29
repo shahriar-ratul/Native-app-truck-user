@@ -7,48 +7,46 @@ import Loading from "../components/Loading";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import createAuthStore from "../store/AuthStore";
+import axios from "axios";
+import { BASE_URL } from "../config";
 export default function OtpScreen({ navigation }) {
   const [error, setError] = useState(null);
   const [fontsLoaded] = useFonts({
     "Roboto-Medium": require("./../assets/fonts/Roboto-Medium.ttf"),
   });
 
-  const isLogin = createAuthStore((state) => state.isLogin);
-  const successLogin = createAuthStore((state) => state.successLogin);
+  const setPhone = createAuthStore((state) => state.setPhone);
   if (!fontsLoaded) {
     return <Loading />;
   }
   return (
     <Formik
-      initialValues={{ email: "", password: "" }}
+      initialValues={{ phone: "+" }}
       validationSchema={Yup.object().shape({
-        email: Yup.string().email().required("Email is required"),
-        password: Yup.string()
-          .min(4)
-          .max(200, "Password should not exceed 200 chars.")
-          .required(),
+        phone: Yup.string().required("phone is required"),
+
       })}
       onSubmit={async (values) => {
-        successLogin();
-        navigation.navigate("Home");
-        // const res = await axios
-        //   .post(
-        //     "/api/admin/login",
-        //     {
-        //       username: values.email,
-        //       password: values.password,
-        //     },
-        //     headers
-        //   )
-        //   .then((res) => {
-        //     if (res.data.success) {
-        //       navigation.navigate("Home");
-        //     }
-        //   })
-        //   .catch((err) => {
-        //     console.log(err);
-        //     setError(err.response.data.message);
-        //   });
+        try{
+        await axios.post(
+            `${BASE_URL}/api/otp`,
+            {
+              phone_no: values.phone,
+            }
+          )
+          .then((res) => {
+            if (res.data.success) {
+              setPhone(values.phone);
+              navigation.navigate("Phone");
+            }
+          })
+          .catch((err) => {
+            console.log(err);
+            setError(err.response.data.message);
+          });
+        }catch{
+          setError("Something went wrong");
+        }
       }}
     >
       {({
@@ -78,21 +76,8 @@ export default function OtpScreen({ navigation }) {
               textAlign: "center",
             }}
           >
-            Welcome back!
+            Phone Number Verification
           </Text>
-          <Text
-            style={{
-              fontFamily: "Roboto-Medium",
-              fontSize: 28,
-              fontWeight: "500",
-              color: "#333",
-              marginBottom: 30,
-              textAlign: "center",
-            }}
-          >
-            Please login to your account.
-          </Text>
-
           <View>
             {error && (
               <Text
@@ -103,48 +88,26 @@ export default function OtpScreen({ navigation }) {
             )}
 
             <View style={{ display: "flex", flexDirection: "row" }}>
-              <IconButton icon="email" size={30} />
+              <IconButton icon="phone" size={30} />
               <TextInput
                 style={{ width: "80%" }}
-                label="Email"
+                label="phone"
                 mode="flat"
                 selectTextOnFocus={true}
-                placeholder="Enter your email"
+                placeholder="Enter your phone"
                 placeholderTextColor="black"
-                keyboardType="email-address"
-                onChangeText={handleChange("email")}
-                onBlur={() => setFieldTouched("email")}
-                value={values.email}
+                keyboardType="phone-pad"
+                onChangeText={handleChange("phone")}
+                onBlur={() => setFieldTouched("phone")}
+                value={values.phone}
               />
             </View>
 
-            {touched.email && errors.email && (
+            {touched.phone && errors.phone && (
               <Text
                 style={{ fontSize: 12, color: "#FF0D10", textAlign: "center" }}
               >
-                {errors.email}
-              </Text>
-            )}
-
-            <View style={{ display: "flex", flexDirection: "row" }}>
-              <IconButton icon="key" size={30} />
-              <TextInput
-                style={{ width: "80%" }}
-                label="Password"
-                mode="flat"
-                placeholder="Enter your password"
-                placeholderTextColor="black"
-                secureTextEntry={true}
-                onChangeText={handleChange("password")}
-                onBlur={() => setFieldTouched("password")}
-                value={values.password}
-              />
-            </View>
-            {touched.password && errors.password && (
-              <Text
-                style={{ fontSize: 12, color: "#FF0D10", textAlign: "center" }}
-              >
-                {errors.password}
+                {errors.phone}
               </Text>
             )}
 

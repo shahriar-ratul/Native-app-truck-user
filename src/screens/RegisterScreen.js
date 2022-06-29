@@ -78,19 +78,7 @@ export default function RegisterScreen({ navigation }) {
               textAlign: "center",
             }}
           >
-            Welcome back!
-          </Text>
-          <Text
-            style={{
-              fontFamily: "Roboto-Medium",
-              fontSize: 28,
-              fontWeight: "500",
-              color: "#333",
-              marginBottom: 30,
-              textAlign: "center",
-            }}
-          >
-            Please login to your account.
+          Lets get started with your new account
           </Text>
 
           <View>
