@@ -2,6 +2,12 @@ import React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import HomeScreen from "../screens/HomeScreen";
 import GetRideScreen from "../screens/GetRideScreen";
+import MapScreen from "../screens/MapScreen";
+import InvoiceScreen from "../screens/InvoiceScreen";
+import TripsScreen from "../screens/TripsScreen";
+import PackageScreeen from "../screens/PackageScreeen";
+import NewPercelScreen from "../screens/NewPercelScreen";
+import NewPackageScreen from "../screens/NewPackageScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -12,7 +18,7 @@ const AppStack = () => {
         name="Home"
         component={HomeScreen}
         options={{
-          title: "Get a Ride",
+          title: "Home",
           headerStyle: {
             backgroundColor: "#f3b344",
           },
@@ -24,8 +30,8 @@ const AppStack = () => {
         }}
       />
       <Stack.Screen
-        name="GetRide"
-        component={GetRideScreen}
+        name="MapScreen"
+        component={MapScreen}
         options={{
           title: "Get a Ride",
           headerStyle: {
@@ -39,8 +45,68 @@ const AppStack = () => {
         }}
       />
       <Stack.Screen
-        name="Invoice"
-        component={HomeScreen}
+        name="Invoices"
+        component={InvoiceScreen}
+        options={{
+          title: "Invoices",
+          headerStyle: {
+            backgroundColor: "#f3b344",
+          },
+          headerTintColor: "#fff",
+          headerTitleAlign: "center",
+          headerTitleStyle: {
+            fontWeight: "bold",
+          },
+        }}
+      />
+      <Stack.Screen
+        name="Trips"
+        component={TripsScreen}
+        options={{
+          title: "Trips",
+          headerStyle: {
+            backgroundColor: "#f3b344",
+          },
+          headerTintColor: "#fff",
+          headerTitleAlign: "center",
+          headerTitleStyle: {
+            fontWeight: "bold",
+          },
+        }}
+      />
+      <Stack.Screen
+        name="Packages"
+        component={PackageScreeen}
+        options={{
+          title: "Package",
+          headerStyle: {
+            backgroundColor: "#f3b344",
+          },
+          headerTintColor: "#fff",
+          headerTitleAlign: "center",
+          headerTitleStyle: {
+            fontWeight: "bold",
+          },
+        }}
+      />
+      <Stack.Screen
+        name="NewPackage"
+        component={NewPackageScreen}
+        options={{
+          title: "New Packages",
+          headerStyle: {
+            backgroundColor: "#f3b344",
+          },
+          headerTintColor: "#fff",
+          headerTitleAlign: "center",
+          headerTitleStyle: {
+            fontWeight: "bold",
+          },
+        }}
+      />
+      <Stack.Screen
+        name="Parcels"
+        component={PackageScreeen}
         options={{
           title: "Get a Ride",
           headerStyle: {
@@ -53,39 +119,10 @@ const AppStack = () => {
           },
         }}
       />
+
       <Stack.Screen
-        name="TripHistory"
-        component={HomeScreen}
-        options={{
-          title: "Get a Ride",
-          headerStyle: {
-            backgroundColor: "#f3b344",
-          },
-          headerTintColor: "#fff",
-          headerTitleAlign: "center",
-          headerTitleStyle: {
-            fontWeight: "bold",
-          },
-        }}
-      />
-      <Stack.Screen
-        name="Package"
-        component={HomeScreen}
-        options={{
-          title: "Get a Ride",
-          headerStyle: {
-            backgroundColor: "#f3b344",
-          },
-          headerTintColor: "#fff",
-          headerTitleAlign: "center",
-          headerTitleStyle: {
-            fontWeight: "bold",
-          },
-        }}
-      />
-      <Stack.Screen
-        name="Parcel"
-        component={HomeScreen}
+        name="NewParcel"
+        component={NewPercelScreen}
         options={{
           title: "Get a Ride",
           headerStyle: {

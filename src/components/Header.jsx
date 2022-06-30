@@ -29,14 +29,11 @@ const Header = () => {
     }catch{
       setError("Something went wrong");
     }
-
-
-  
   };
 
   return (
     <Appbar.Header >
-      <Appbar.Content title="10xTrucks" />
+      <Appbar.Content title="10xTrucks"  style={{alignItems:'center'}}/>
       <Appbar.Action icon="logout" onPress={_handleMore} />
     </Appbar.Header>
   );
