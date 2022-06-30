@@ -5,6 +5,7 @@ import { Appbar } from 'react-native-paper';
 import { BASE_URL } from '../config';
 import createAuthStore from '../store/AuthStore';
 import userLocationStore from '../store/UserLocation';
+import tw from 'twrnc'
 
 const Header = () => {
   const token = createAuthStore((state) => state.token);
@@ -43,7 +44,7 @@ const Header = () => {
   };
 
   return (
-    <Appbar.Header >
+    <Appbar.Header style={tw`mt-0`} >
       <Appbar.Content title="10xTrucks"  style={{alignItems:'center'}}/>
       <Appbar.Action icon="logout" onPress={_handleMore} />
     </Appbar.Header>

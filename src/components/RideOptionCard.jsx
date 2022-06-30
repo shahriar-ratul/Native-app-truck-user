@@ -48,7 +48,7 @@ const RideOptionsCard = () => {
       // axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
 
       const url = `${BASE_URL}/api/user/trips`
-      console.log(url)
+      // console.log(url)
       const header = {
         'Authorization': `Bearer ${token}`,
         "Content-Type": "multipart/form-data",

@@ -5,9 +5,11 @@ import GetRideScreen from "../screens/GetRideScreen";
 import MapScreen from "../screens/MapScreen";
 import InvoiceScreen from "../screens/InvoiceScreen";
 import TripsScreen from "../screens/TripsScreen";
-import PackageScreeen from "../screens/PackageScreeen";
-import NewPercelScreen from "../screens/NewPercelScreen";
+
+import NewParcelScreen from "../screens/NewParcelScreen";
 import NewPackageScreen from "../screens/NewPackageScreen";
+import PackageScreen from "../screens/PackageScreen";
+import ParcelScreen from "../screens/ParcelScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -76,7 +78,7 @@ const AppStack = () => {
       />
       <Stack.Screen
         name="Packages"
-        component={PackageScreeen}
+        component={PackageScreen}
         options={{
           title: "Package",
           headerStyle: {
@@ -106,7 +108,7 @@ const AppStack = () => {
       />
       <Stack.Screen
         name="Parcels"
-        component={PackageScreeen}
+        component={ParcelScreen}
         options={{
           title: "Get a Ride",
           headerStyle: {
@@ -122,7 +124,7 @@ const AppStack = () => {
 
       <Stack.Screen
         name="NewParcel"
-        component={NewPercelScreen}
+        component={NewParcelScreen}
         options={{
           title: "Get a Ride",
           headerStyle: {

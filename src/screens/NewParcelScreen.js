@@ -1,7 +1,7 @@
 import { View, Text } from 'react-native'
 import React from 'react'
 
-const NewPercelScreen = () => {
+const NewParcelScreen = () => {
   return (
     <View>
       <Text>NewPercelScreen</Text>
@@ -9,4 +9,4 @@ const NewPercelScreen = () => {
   )
 }
 
-export default NewPercelScreen
+export default NewParcelScreen

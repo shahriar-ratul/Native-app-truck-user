@@ -6,7 +6,7 @@ import createAuthStore from "./store/AuthStore";
 export default function App() {
  const token = createAuthStore((state) => state.token);
   
- console.log(token);
+//  console.log(token);
   return (
     <SafeAreaProvider>
       <KeyboardAvoidingView
