@@ -21,14 +21,15 @@ import Header from "../components/Header";
 import { Avatar, Card, IconButton } from "react-native-paper";
 
 export default function HomeScreen({ navigation }) {
-  const startLocation = userLocationStore((state) => state.startLocation);
-  const storeStartLocation = userLocationStore(
-    (state) => state.setStartLocation
-  );
-  const storeEndLocation = userLocationStore((state) => state.setEndLocation);
-  const setDescription = userLocationStore(
-    (state) => state.setStartDescription
-  );
+  const setDistance = userLocationStore((state) => state.setDistance);
+  const setEndDescription = userLocationStore((state) => state.setEndDescription);
+  const setEndLocation = userLocationStore((state) => state.setEndLocation);
+  const setPrice = userLocationStore((state) => state.setPrice);
+  const setStartDescription = userLocationStore((state) => state.setStartDescription);
+  const setStartLocation = userLocationStore((state) => state.setStartLocation);
+  const setTravelTimeInformation = userLocationStore((state) => state.setTravelTimeInformation);
+
+
   const [fontsLoaded] = useFonts({
     "Roboto-Bold": require("./../assets/fonts/Roboto-Bold.ttf"),
   });
@@ -36,6 +37,8 @@ export default function HomeScreen({ navigation }) {
   if (!fontsLoaded) {
     return <Loading />;
   }
+
+
 
   const data = [
     {
@@ -88,6 +91,10 @@ export default function HomeScreen({ navigation }) {
       screen: "Packages",
     },
   ];
+
+
+
+
 
   return (
     <>

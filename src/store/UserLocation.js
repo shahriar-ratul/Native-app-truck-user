@@ -9,6 +9,7 @@ const LocationStore =(set,get) => ({
   price: 0,
   startDescription : null,
   endDescription : null,
+  travelTimeInformation : null,
   setStartLocation: (startLocation) => set({ startLocation: startLocation }),
   setEndLocation: (endLocation) => set({ endLocation: endLocation }),
   setDistance: (distance) => set({ distance: distance }),
@@ -17,14 +18,18 @@ const LocationStore =(set,get) => ({
   },
   setStartDescription: (startDescription) => set({ startDescription: startDescription }),
   setEndDescription: (endDescription) => set({ endDescription: endDescription }),
-  clearState: () =>
+  setTravelTimeInformation: (travelTimeInformation) => { set({ travelTimeInformation: travelTimeInformation }) },
+  clearState: () => {
     set({
       startLocation: null,
       endLocation: null,
       distance: 0,
       price: 0,
-      description: null,
-    }),
+      startDescription : null,
+      endDescription : null,
+      travelTimeInformation : null,
+    });
+  },
 })
 
 // const userLocationStore = create(
