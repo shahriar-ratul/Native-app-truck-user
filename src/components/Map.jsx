@@ -20,8 +20,11 @@ const Map = () => {
   const setTravelTimeInformation = userLocationStore(
     (state) => state.setTravelTimeInformation
   );
+
+  const [loading,setLoading] = useState(true);
   const setDistance = userLocationStore((state) => state.setDistance);
-  const [loading, setLoading] = useState(false);
+  const setPrice = userLocationStore((state) => state.setPrice);
+
   const mapRef = useRef();
   const [initialLocation, setInitialLocation] = useState({
     latitude: null,
@@ -37,41 +40,21 @@ const Map = () => {
     longitude: null,
   });
 
-
-
   const [errorMsg, setErrorMsg] = useState(null);
 
-
   useEffect(() => {
-    mapRef.current.fitToElements(["origin, destination"], {
-      edgePadding: { top: 50, right: 50, bottom: 50, left: 50 },
-    });
-  }, [origin, destination]);
-  useEffect(() => {
-    if (!origin || !destination) return;
-    mapRef.current.fitToElements(["origin, destination"], {
-      edgePadding: { top: 50, right: 60, bottom: 50, left: 60 },
-    });
-  }, []);
-  useEffect(() => {
-
-    if (!initialLocation.latitude || !initialLocation.longitude) {
-      setLoading(true);
-    }
-
-    if(origin && destination){
+    if (origin && destination) {
       setCurrentLocation({
         latitude: origin.lat,
         longitude: origin.lng,
-      })
+      });
 
       setDestinationLocation({
         latitude: destination.lat,
         longitude: destination.lng,
-      })}
-    
+      });
+    }
 
-    
     (async () => {
       let { status } = await Location.requestForegroundPermissionsAsync();
       if (status !== "granted") {
@@ -84,110 +67,139 @@ const Map = () => {
         latitude: location.coords.latitude,
         longitude: location.coords.longitude,
       });
+
       setLoading(false);
       // console.log(location);
     })();
+  }, []);
 
-
+  useEffect(() => {
+    if (origin && destination && mapRef.current?.fitToElements ){
+      mapRef.current.fitToElements(["origin, destination"], {
+        edgePadding: { top: 50, right: 50, bottom: 50, left: 50 },
+      });
+    }
+  }, [origin, destination]);
+  useEffect(() => {
+    if (!origin || !destination) return;
+      if (origin && destination && mapRef.current?.fitToElement) {
+        mapRef.current.fitToElements(["origin, destination"], {
+          edgePadding: { top: 50, right: 60, bottom: 50, left: 60 },
+        });
+      }
+  }, []);
+  useEffect(() => {
     if (!origin || !destination) return;
     const getTravelTime = async () => {
-      try{ 
-        await axios.get(
-        `https://maps.googleapis.com/maps/api/distancematrix/json?origins=${startDescription}&destinations=${endDescription}&key=${GOOGLE_MAP_API_KEY}`
-      )
-        .then((res) => {
-          if (res.data) {
-            if(res.data.rows[0].elements[0].status === "OK"){
-            let value = res.data.rows[0].elements[0].distance.value;
-            let data = value/1000;
-            setDistance(data);
-            setTravelTimeInformation(res.data.rows[0].elements[0]);
-            // console.log(res.data.rows[0].elements[0].distance.value)
-          }
-        }
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-
-
-      }catch{
-        console.log("error")
+      try {
+        await axios
+          .get(
+            `https://maps.googleapis.com/maps/api/distancematrix/json?origins=${startDescription}&destinations=${endDescription}&key=${GOOGLE_MAP_API_KEY}`
+          )
+          .then((res) => {
+            if (res.data) {
+              if (res.data.rows[0].elements[0].status === "OK") {
+                let value = res.data.rows[0].elements[0].distance.value;
+                let data = value / 1000;
+                setDistance(data);
+                setPrice(data * 1000);
+                setTravelTimeInformation(res.data.rows[0].elements[0]);
+                // console.log(res.data.rows[0].elements[0].distance.value)
+              }
+            }
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      } catch {
+        console.log("error");
       }
-     
     };
     getTravelTime();
   }, [origin, destination, GOOGLE_MAP_API_KEY]);
-  return loading ? (
-    <View style={styles.container}>
-      <Text style={styles.text}>Loading...</Text>
+
+  // console.log(mapRef);
+
+  return (
+    <View  style={tw`flex-1`}>
+      {loading ? (<View>
+        <Text>Loading...</Text>
+        <Text>{errorMsg}</Text>
+      </View>
+      ) : (
+      <MapView
+        ref={mapRef}
+        style={tw`flex-1`}
+        mapType="mutedStandard"
+        initialRegion={{
+          latitude: !origin ? initialLocation?.latitude : origin?.lat,
+          longitude: !origin ? initialLocation?.longitude : origin?.lng,
+          latitudeDelta: 0.005,
+          longitudeDelta: 0.005,
+        }}
+      >
+        {origin && destination && (
+          <MapViewDirections
+            origin={{
+              latitude: origin.lat,
+              longitude: origin.lng,
+            }}
+            destination={{
+              latitude: destination.lat,
+              longitude: destination.lng,
+            }}
+            apikey={GOOGLE_MAP_API_KEY}
+            strokeWidth={3}
+            strokeColor="black"
+          />
+        )}
+        {origin && (
+          <Marker
+            coordinate={{
+              latitude: origin?.lat,
+              longitude: origin?.lng,
+            }}
+            title="Origin"
+            description={startDescription}
+            identifier={"origin"}
+          >
+            <View>
+              <Image
+                style={{
+                  width: 20,
+                  height: 20,
+                  resizeMode: "contain",
+                }}
+                source={require("../img/o-m.png")}
+              />
+            </View>
+          </Marker>
+        )}
+        {destination && (
+          <Marker
+            coordinate={{
+              latitude: destination.lat,
+              longitude: destination.lng,
+            }}
+            title="Destination"
+            description={endDescription}
+            identifier={"destination"}
+          >
+            <View>
+              <Image
+                style={{
+                  width: 20,
+                  height: 20,
+                  resizeMode: "contain",
+                }}
+                source={require("../img/d-m.png")}
+              />
+            </View>
+          </Marker>
+        )}
+      </MapView>
+      )}
     </View>
-  ) : (
-    <MapView
-      ref={mapRef}
-      style={tw`flex-1`}
-      mapType="mutedStandard"
-      initialRegion={{
-        latitude: !origin ? initialLocation?.latitude : origin?.lat,
-        longitude: !origin ? initialLocation?.longitude : origin?.lng,
-        latitudeDelta: 0.005,
-        longitudeDelta: 0.005,
-      }}
-    >
-      {origin && destination && (
-        <MapViewDirections
-          origin={currentLocation}
-          destination={destinationLocation}
-          apikey={GOOGLE_MAP_API_KEY}
-          strokeWidth={3}
-          strokeColor="black"
-        />
-      )}
-      {origin && (
-        <Marker
-          coordinate={{
-            latitude: origin?.lat,
-            longitude: origin?.lng,
-          }}
-          title="Origin"
-          description={startDescription}
-          identifier={"origin"}
-        >
-          <View>
-            <Image
-              style={{
-                width: 20,
-                height: 20,
-                resizeMode: "contain",
-              }}
-              source={require("../img/o-m.png")}
-            />
-          </View>
-        </Marker>
-      )}
-      {destination && (
-        <Marker
-          coordinate={{
-            latitude: destination.lat,
-            longitude: destination.lng,
-          }}
-          title="Destination"
-          description={endDescription}
-          identifier={"destination"}
-        >
-          <View>
-            <Image
-              style={{
-                width: 20,
-                height: 20,
-                resizeMode: "contain",
-              }}
-              source={require("../img/d-m.png")}
-            />
-          </View>
-        </Marker>
-      )}
-    </MapView>
   );
 };
 

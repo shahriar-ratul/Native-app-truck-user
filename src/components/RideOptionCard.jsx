@@ -12,11 +12,13 @@ import {
 import tw from "twrnc";
 import userLocationStore from "../store/UserLocation";
 import Map from "./Map";
-import { MaterialCommunityIcons } from '@expo/vector-icons'; 
-import 'intl';
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+import "intl";
 import "intl/locale-data/jsonp/en";
 import axios from "axios";
 import { BASE_URL } from "../config";
+import { Button } from "react-native-paper";
+import createAuthStore from "../store/AuthStore";
 const data = [
   {
     id: "10XTrucks",
@@ -29,29 +31,66 @@ const RideOptionsCard = () => {
   const navigation = useNavigation();
   const [selected, setSelected] = useState("10XTrucks");
   const distance = userLocationStore((state) => state.distance);
-  const travelTimeInformation = userLocationStore((state) => state.travelTimeInformation);
+  const travelTimeInformation = userLocationStore(
+    (state) => state.travelTimeInformation
+  );
+  const startLocation = userLocationStore((state) => state.startLocation);
+  const endLocation = userLocationStore((state) => state.endLocation);
+  const startDescription = userLocationStore((state) => state.startDescription);
+  const endDescription = userLocationStore((state) => state.endDescription);
+  const price = userLocationStore((state) => state.price);
+  const token = createAuthStore((state) => state.token);
+  const clearState = userLocationStore((state) => state.clearState);
+
+  const handleSubmit = async () => {
+
+    try {
+      // axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+
+      const url = `${BASE_URL}/api/user/trips`
+      console.log(url)
+      const header = {
+        'Authorization': `Bearer ${token}`,
+        "Content-Type": "multipart/form-data",
+        Accept: "application/json",
+        
+      };
+      const data = new FormData();
+      data.append("start_location", startDescription);
+      data.append("s_latitude", startLocation.lat);
+      data.append("s_longitude", startLocation.lng);
+      data.append("end_location", endDescription);
+      data.append("d_latitude", endLocation.lat);
+      data.append("d_longitude", endLocation.lng);
+      data.append("distance", distance);
+      data.append("total", price);
 
 
 
+      const response = await  axios({
+        method: 'post',
+        url: url,
+        data: data,
+        headers: header,
+      });
 
-  // submit trip
+      if(response.data.success === true) {
+        // console.log(response.data.data)
+        clearState();
+        navigation.navigate("Home");
+      }
 
-  const submitTrip = async () => {
 
-    const response = await axios.post(`${BASE_URL}\api\trip\create`, {
-      start_location: userLocationStore((state) => state.startLocation),
-      end_location: userLocationStore((state) => state.endLocation),
-      distance: userLocationStore((state) => state.distance),
-      travel_time_information: userLocationStore((state) => state.travelTimeInformation),
-      surge_charge_rate: SURGE_CHARGE_RATE,
-      vehicle_type: selected,
-    });
+      // const response = await axios.post(url, data, header)
+      
+        console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
+   
+  };
 
-  }
-
-// console.log(distance)
-// console.log(travelTimeInformation)
-
+  // console.log(token)
 
   return (
     <View style={tw`h-full`}>
@@ -63,7 +102,7 @@ const RideOptionsCard = () => {
             styles.backButtonContainer,
           ]}
         >
-         <MaterialCommunityIcons name="chevron-left" size={35} color="black" />
+          <MaterialCommunityIcons name="chevron-left" size={35} color="black" />
         </TouchableOpacity>
         <Map />
       </View>
@@ -104,24 +143,17 @@ const RideOptionsCard = () => {
                 {new Intl.NumberFormat("en-US", {
                   style: "currency",
                   currency: "USD",
-                  currencyDisplay: "symbol"
-                 
-                }).format(
-                  distance * SURGE_CHARGE_RATE
-                    
-                )}
+                  currencyDisplay: "symbol",
+                }).format(price)}
               </Text>
             </TouchableOpacity>
           )}
         />
-      
+
         <View>
           <TouchableOpacity
-            disabled={!selected}
-           
-            style={tw`h-16 bg-black py-3 m-3 ${
-              !selected && "bg-gray-300"
-            } justify-center`}
+            onPress={handleSubmit}
+            style={tw`h-16 bg-black py-3 m-3 ${!selected && "bg-gray-300"} justify-center`}
           >
             <Text style={tw`text-center text-white text-xl`}>
               {!selected ? "Confirm" : `Confirm ${selected}`}

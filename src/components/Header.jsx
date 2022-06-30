@@ -23,16 +23,21 @@ const Header = () => {
         clearState();
         successLogout();
       
-      }
-     
+      }  
     })
     .catch((err) => {
       console.log(err);
+      setToken(null);
+      clearState();
+      successLogout();
       setError(err.response.data.message);
 
     })
 
     }catch{
+      setToken(null);
+      clearState();
+      successLogout();
       setError("Something went wrong");
     }
   };
