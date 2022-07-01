@@ -209,7 +209,7 @@ export default function RegisterScreen({ navigation }) {
                       textAlign: "center",
                     }}
                   >
-                    {errors.userusername}
+                    {errors.username}
                   </Text>
                 )}
 

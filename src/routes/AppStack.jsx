@@ -110,7 +110,7 @@ const AppStack = () => {
         name="Parcels"
         component={ParcelScreen}
         options={{
-          title: "Get a Ride",
+          title: "Parcels",
           headerStyle: {
             backgroundColor: "#f3b344",
           },
@@ -126,7 +126,7 @@ const AppStack = () => {
         name="NewParcel"
         component={NewParcelScreen}
         options={{
-          title: "Get a Ride",
+          title: "New Parcel",
           headerStyle: {
             backgroundColor: "#f3b344",
           },

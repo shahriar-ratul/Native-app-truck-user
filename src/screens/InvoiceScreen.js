@@ -1,15 +1,58 @@
-import * as React from 'react';
-import { DataTable } from 'react-native-paper';
+import axios from "axios";
+import * as React from "react";
+import { DataTable } from "react-native-paper";
+import { BASE_URL } from "../config";
+import createAuthStore from "../store/AuthStore";
 
-const optionsPerPage = [2, 3, 4];
+const optionsPerPage = [10, 15, 20];
 
 const InvoiceScreen = () => {
-  const [page, setPage] = React.useState(0);
+  const [page, setPage] = React.useState(1);
+  const [totalPage, setTotalPage] = React.useState(1);
   const [itemsPerPage, setItemsPerPage] = React.useState(optionsPerPage[0]);
+  const token = createAuthStore((state) => state.token);
+  const [data, setData] = React.useState([]);
+
+  const fetchData = async () => {
+    try {
+      const url = `${BASE_URL}/api/user/invoices?page=${page}&limit=${itemsPerPage}`;
+      // console.log(url)
+      const header = {
+        Authorization: `Bearer ${token}`,
+        Accept: "application/json",
+      };
+      const response = await axios({
+        method: "get",
+        url: url,
+        headers: header,
+      });
+      if (response.data.success == true) {
+        setPage(response.data.meta.current_page);
+        setTotalPage(response.data.meta.last_page);
+        setData(response.data.data.invoices);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   React.useEffect(() => {
-    setPage(0);
-  }, [itemsPerPage]);
+    let mounted = true;
+    fetchData();
+    return () => {
+      mounted = false;
+    }
+
+  }, [page, itemsPerPage]);
+
+  React.useEffect(() => {
+    let mounted = true;
+    fetchData();
+    return () => {
+      mounted = false;
+    }
+    
+  }, []);
 
   return (
     <DataTable>
@@ -19,31 +62,27 @@ const InvoiceScreen = () => {
         <DataTable.Title numeric>Fat</DataTable.Title>
       </DataTable.Header>
 
-      <DataTable.Row>
-        <DataTable.Cell>Frozen yogurt</DataTable.Cell>
-        <DataTable.Cell numeric>159</DataTable.Cell>
-        <DataTable.Cell numeric>6.0</DataTable.Cell>
-      </DataTable.Row>
-
-      <DataTable.Row>
-        <DataTable.Cell>Ice cream sandwich</DataTable.Cell>
-        <DataTable.Cell numeric>237</DataTable.Cell>
-        <DataTable.Cell numeric>8.0</DataTable.Cell>
-      </DataTable.Row>
+      {data.map((row) => (
+        <DataTable.Row key={row.id}>
+          <DataTable.Cell>Frozen yogurt</DataTable.Cell>
+          <DataTable.Cell numeric>159</DataTable.Cell>
+          <DataTable.Cell numeric>6.0</DataTable.Cell>
+        </DataTable.Row>
+      ))}
 
       <DataTable.Pagination
         page={page}
-        numberOfPages={3}
+        numberOfPages={totalPage}
         onPageChange={(page) => setPage(page)}
-        label="1-2 of 6"
-        optionsPerPage={optionsPerPage}
-        itemsPerPage={itemsPerPage}
-        setItemsPerPage={setItemsPerPage}
-        showFastPagination
-        optionsLabel={'Rows per page'}
+        label={`${page}-${totalPage} of ${totalPage}`}
+        showFastPaginationControls
+        numberOfItemsPerPageList={optionsPerPage}
+        numberOfItemsPerPage={itemsPerPage}
+        onItemsPerPageChange={setItemsPerPage}
+        selectPageDropdownLabel={"Rows per page"}
       />
     </DataTable>
   );
-}
+};
 
-export default InvoiceScreen
+export default InvoiceScreen;

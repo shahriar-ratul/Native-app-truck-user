@@ -53,7 +53,7 @@ export default function HomeScreen({ navigation }) {
       title: "New Parcels",
       subtitle: "Send your parcels to your customers",
       icon: 'truck-cargo-container',
-      screen: "NewPackage",
+      screen: "NewParcel",
     },
     {
       id: "7",

@@ -45,7 +45,7 @@ export default function LoginScreen({ navigation }) {
         .then((res) => {
           // console.log(res);
           if (res.data.success) {
-            console.log(res.data.data.token);
+            // console.log(res.data.data.token);
             setToken(res.data.data.token);
             successLogin();
           }

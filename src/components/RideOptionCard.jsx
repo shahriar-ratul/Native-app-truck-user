@@ -83,7 +83,7 @@ const RideOptionsCard = () => {
 
       // const response = await axios.post(url, data, header)
       
-        console.log(response);
+        // console.log(response);
     } catch (error) {
       console.log(error);
     }
@@ -143,7 +143,7 @@ const RideOptionsCard = () => {
                 {new Intl.NumberFormat("en-US", {
                   style: "currency",
                   currency: "USD",
-                  currencyDisplay: "symbol",
+                  // currencyDisplay: "",
                 }).format(price)}
               </Text>
             </TouchableOpacity>
