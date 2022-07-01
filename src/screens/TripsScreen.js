@@ -58,16 +58,19 @@ const TripsScreen = () => {
   return (
     <DataTable>
       <DataTable.Header>
-        <DataTable.Title>Dessert</DataTable.Title>
-        <DataTable.Title numeric>Calories</DataTable.Title>
-        <DataTable.Title numeric>Fat</DataTable.Title>
+        <DataTable.Title>Start</DataTable.Title>
+        <DataTable.Title >Destination</DataTable.Title>
+        <DataTable.Title >Distance</DataTable.Title>
+        <DataTable.Title >Price</DataTable.Title>
+        <DataTable.Title >Status</DataTable.Title>
       </DataTable.Header>
 
       {data.map((row) => (
         <DataTable.Row key={row.id}>
-          <DataTable.Cell>Frozen yogurt</DataTable.Cell>
-          <DataTable.Cell numeric>159</DataTable.Cell>
-          <DataTable.Cell numeric>6.0</DataTable.Cell>
+          <DataTable.Cell>{row.start_location}</DataTable.Cell>
+          <DataTable.Cell>{row.end_location}</DataTable.Cell>
+          <DataTable.Cell>{row.distance}</DataTable.Cell>
+          <DataTable.Cell>{row.total}</DataTable.Cell>
         </DataTable.Row>
       ))}
 

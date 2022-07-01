@@ -32,7 +32,10 @@ export default function NewPackageScreen({ navigation }) {
   const [travelInfo,setTravelInfo] = useState(null);
   const token = createAuthStore((state) => state.token);
   const [success, setSuccess] = useState(null);
+  const [weight,setWeight] = useState(null);
+  const [notes,setNotes] = useState(null);
   useEffect(() => {
+    let mounted =true;
     if (!startLocation || !endLocation) return;
     const getTravelTime = async () => {
       try {
@@ -50,7 +53,7 @@ export default function NewPackageScreen({ navigation }) {
                 setDistance(data);
                 setPrice(data * 1000);
                 setTravelInfo(res.data.rows[0].elements[0]);
-                console.log(res.data.rows[0].elements[0].distance.value)
+                // console.log(res.data.rows[0].elements[0].distance.value)
               }
             }
           })
@@ -62,6 +65,11 @@ export default function NewPackageScreen({ navigation }) {
       }
     };
     getTravelTime();
+
+    return () => {
+      mounted = false;
+    }
+
   }, [startDescription, endDescription, GOOGLE_MAP_API_KEY]);
 
 
@@ -74,6 +82,56 @@ export default function NewPackageScreen({ navigation }) {
   if (!fontsLoaded) {
     return <Loading />;
   }
+
+
+
+  const handleSubmit = async () => {
+
+    try {
+      // axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+
+      const url = `${BASE_URL}/api/user/packages`
+      // console.log(url)
+      const header = {
+        'Authorization': `Bearer ${token}`,
+        "Content-Type": "multipart/form-data",
+        Accept: "application/json",
+        
+      };
+      const data = new FormData();
+      data.append("start_location", startDescription);
+      data.append("s_latitude", startLocation.lat);
+      data.append("s_longitude", startLocation.lng);
+      data.append("end_location", endDescription);
+      data.append("d_latitude", endLocation.lat);
+      data.append("d_longitude", endLocation.lng);
+      data.append("distance", distance);
+      data.append("total", price);
+
+
+
+      const response = await  axios({
+        method: 'post',
+        url: url,
+        data: data,
+        headers: header,
+      });
+
+      if(response.data.success === true) {
+        navigation.navigate("Home");
+      }
+
+
+      // const response = await axios.post(url, data, header)
+      
+        // console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
+   
+  };
+
+  console.log(token)
 
 
   return (
@@ -90,50 +148,9 @@ export default function NewPackageScreen({ navigation }) {
         .required("Please enter your weight"),
       })}
       onSubmit={async (values) => {
-        try {
-          const header = {
-            'Authorization': `Bearer ${token}`,
-            Accept: "application/json",
-            
-          };
-        
-          await axios
-            .post(`${BASE_URL}/api/user/packages`, {
-              start_location: startDescription,
-              s_latitude: startLocation.lat,
-              s_longitude: startLocation.lng,
-              end_location: endDescription,
-              d_latitude: endLocation.lat,
-              d_longitude: endLocation.lng,
-              distance: distance,
-              total: price,
-              notes: values.notes,
-              total_weight: values.weight,
-            },header)
-            .then((res) => {
-              if (res.data.success) {
-                console.log(res.data);
-                setError(null);
-                setDistance(0);
-                setPrice(0);
-                setTravelInfo(null);
-                setStartDescription("");
-                setEndDescription("");
-                setStartLocation(null);
-                setEndLocation(null);
-                values.notes = "";
-                values.weight = "";
-                setSuccess(res.data.message);
-                navigation.navigate("Home");
-              }
-            })
-            .catch((err) => {
-              // console.log(err.response.data);
-              setError(err.response.data.error.error_message);
-            });
-        } catch {
-          setError("Api call error");
-        }
+        setWeight(values.weight);
+        setNotes(values.notes);
+        await handleSubmit();
       }}
     >
       {({

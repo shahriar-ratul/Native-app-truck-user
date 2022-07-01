@@ -111,12 +111,13 @@ export default function HomeScreen({ navigation }) {
         {data &&
           data.length > 0 &&
           data.map((item, index) => (
-            <TouchableOpacity  key={index} onPress={() => navigation.navigate(item.screen)}>
+            <TouchableOpacity     
+             key={index} onPress={() => navigation.navigate(item.screen)}>
                  <Card.Title
                   style={tw`text-center text-2xl p-4 pl-4  mb-4 bg-yellow-100 rounded-lg`}
                   title={item.title}
                   subtitle={item.subtitle}
-                  left={(props) => <Avatar.Icon {...props} icon={item.icon} />}
+                  left={(props) => <Avatar.Icon {...props} icon={item.icon}/>}
                   right={(props) => <IconButton {...props} icon="arrow-right-bold-circle" onPress={() => {}} />}
                 />
             </TouchableOpacity>
