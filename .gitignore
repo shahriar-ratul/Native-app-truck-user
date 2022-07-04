@@ -16,6 +16,3 @@ web-build/
 #editor
 .idea
 .vscode
-
-
-.env
