@@ -109,7 +109,7 @@ const RideOptionsCard = () => {
       <SafeAreaView style={tw`h-2/5 bg-white`}>
         <View style={tw`p-5`}>
           <Text style={styles.title}>
-            Confirm Your Trip - {travelTimeInformation?.distance.text}
+            Confirm Your Trip - {travelTimeInformation?.distance?.text}
           </Text>
         </View>
         <FlatList
@@ -153,7 +153,7 @@ const RideOptionsCard = () => {
         <View>
           <TouchableOpacity
             onPress={handleSubmit}
-            style={tw`h-16 bg-black py-3 m-3 ${!selected && "bg-gray-300"} justify-center`}
+            style={tw`h-16 bg-black py-3 m-3 justify-center`}
           >
             <Text style={tw`text-center text-white text-xl`}>
               {!selected ? "Confirm" : `Confirm ${selected}`}

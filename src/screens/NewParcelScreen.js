@@ -27,53 +27,51 @@ export default function NewParcelScreen({ navigation }) {
   const [endDescription, setEndDescription] = useState("");
   const [startLocation, setStartLocation] = useState(null);
   const [endLocation, setEndLocation] = useState(null);
-  const [distance,setDistance] = useState(0);
-  const [price,setPrice] = useState(0);
-  const [travelInfo,setTravelInfo] = useState(null);
+  const [distance, setDistance] = useState(0);
+  const [price, setPrice] = useState(0);
+  const [travelInfo, setTravelInfo] = useState(null);
   const token = createAuthStore((state) => state.token);
   const [success, setSuccess] = useState(null);
-  const [weight,setWeight] = useState(null);
-  const [notes,setNotes] = useState(null);
+  const [weight, setWeight] = useState(null);
+  const [notes, setNotes] = useState(null);
   useEffect(() => {
-    let mounted =true;
-    if (!startLocation || !endLocation) return;
-    const getTravelTime = async () => {
-      try {
-        // console.log(startDescription);
-        // console.log(endDescription);
-        await axios
+    let mounted = true;
+    if (mounted) {
+      if (!startLocation || !endLocation) return;
+      const getTravelTime = async () => {
+        try {
+          // console.log(startDescription);
+          // console.log(endDescription);
+          await axios
           .get(
-            `https://maps.googleapis.com/maps/api/distancematrix/json?origins=${startDescription}&destinations=${endDescription}&key=${GOOGLE_MAP_API_KEY}`
+            `https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins=${startDescription}&destinations=${endDescription}&key=${GOOGLE_MAP_API_KEY}`
           )
           .then((res) => {
             if (res.data) {
               if (res.data.rows[0].elements[0].status === "OK") {
                 let value = res.data.rows[0].elements[0].distance.value;
-                let data = value / 1000;
-                setDistance(data);
-                setPrice(data * 1000);
+                let data = value/1609 * 1;
+                setDistance(value/1609);
+                setPrice(data);
                 setTravelInfo(res.data.rows[0].elements[0]);
                 // console.log(res.data.rows[0].elements[0].distance.value)
               }
             }
           })
-          .catch((err) => {
-            console.log(err);
-          });
-      } catch {
-        console.log("error");
-      }
-    };
-    getTravelTime();
+            .catch((err) => {
+              console.log(err);
+            });
+        } catch {
+          console.log("error");
+        }
+      };
+      getTravelTime();
+    }
 
     return () => {
       mounted = false;
-    }
-
+    };
   }, [startDescription, endDescription, GOOGLE_MAP_API_KEY]);
-
-
-
 
   const [fontsLoaded] = useFonts({
     "Roboto-Medium": require("./../assets/fonts/Roboto-Medium.ttf"),
@@ -83,20 +81,16 @@ export default function NewParcelScreen({ navigation }) {
     return <Loading />;
   }
 
-
-
   const handleSubmit = async () => {
-
     try {
       // axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
 
-      const url = `${BASE_URL}/api/user/parcels`
+      const url = `${BASE_URL}/api/user/parcels`;
       // console.log(url)
       const header = {
-        'Authorization': `Bearer ${token}`,
+        Authorization: `Bearer ${token}`,
         "Content-Type": "multipart/form-data",
         Accept: "application/json",
-        
       };
       const data = new FormData();
       data.append("start_location", startDescription);
@@ -107,32 +101,29 @@ export default function NewParcelScreen({ navigation }) {
       data.append("d_longitude", endLocation.lng);
       data.append("distance", distance);
       data.append("total", price);
+      data.append("weight", weight);
+      data.append("notes", notes);
 
-
-
-      const response = await  axios({
-        method: 'post',
+      const response = await axios({
+        method: "post",
         url: url,
         data: data,
         headers: header,
       });
 
-      if(response.data.success === true) {
+      if (response.data.success === true) {
         navigation.navigate("Home");
       }
 
-
       // const response = await axios.post(url, data, header)
-      
-        // console.log(response);
+
+      // console.log(response);
     } catch (error) {
       console.log(error);
     }
-   
   };
 
-  console.log(token)
-
+  // console.log(token)
 
   return (
     <Formik
@@ -144,8 +135,7 @@ export default function NewParcelScreen({ navigation }) {
         notes: Yup.string()
           .max(30, "Must be 50 characters or less")
           .required("Please enter your Notes"),
-        weight: Yup.string()
-        .required("Please enter your weight"),
+        weight: Yup.string().required("Please enter your weight"),
       })}
       onSubmit={async (values) => {
         setWeight(values.weight);
@@ -177,7 +167,7 @@ export default function NewParcelScreen({ navigation }) {
                 </Text>
               )}
 
-            {success && (
+              {success && (
                 <Text
                   style={{
                     fontSize: 16,
@@ -187,59 +177,52 @@ export default function NewParcelScreen({ navigation }) {
                 >
                   {success}
                 </Text>
-              )}  
-              <View >
-                <Text style={tw`text-sm pb-2`}>
-                  Pick Up At:
-                </Text>
-              <GooglePlacesAutocomplete
-                placeholder={
-                  startDescription ? startDescription : "Pick Up Location"
-                }
-                debounce={200}
-                
-                styles={toInputBoxStyles}
-                onPress={(data, details = null) => {
-                  setStartLocation(details.geometry.location);
-                  setStartDescription(data.description);
-                }}
-                fetchDetails={true}
-                minLength={2}
-                enablePoweredByContainer={false}
-                nearbyPlacesAPI="GooglePlacesSearch"
-                query={{
-                  key: GOOGLE_MAP_API_KEY,
-                  language: "en",
-                }}
-              />
+              )}
+              <View>
+                <Text style={tw`text-sm pb-2`}>Pick Up At:</Text>
+                <GooglePlacesAutocomplete
+                  placeholder={
+                    startDescription ? startDescription : "Pick Up Location"
+                  }
+                  debounce={200}
+                  styles={toInputBoxStyles}
+                  onPress={(data, details = null) => {
+                    setStartLocation(details.geometry.location);
+                    setStartDescription(data.description);
+                  }}
+                  fetchDetails={true}
+                  minLength={2}
+                  enablePoweredByContainer={false}
+                  nearbyPlacesAPI="GooglePlacesSearch"
+                  query={{
+                    key: GOOGLE_MAP_API_KEY,
+                    language: "en",
+                  }}
+                />
               </View>
 
-              <View >
-                <Text style={tw`text-sm pb-2`}>
-                  Deliver To:
-                </Text>
-              <GooglePlacesAutocomplete
-                placeholder={
-                  endDescription ? endDescription : "Deliver Location"
-                }
-                debounce={200}
-                
-                styles={toInputBoxStyles}
-                onPress={(data, details = null) => {
-                  setEndLocation(details.geometry.location);
-                  setEndDescription(data.description);
-                }}
-                fetchDetails={true}
-                minLength={2}
-                enablePoweredByContainer={false}
-                nearbyPlacesAPI="GooglePlacesSearch"
-                query={{
-                  key: GOOGLE_MAP_API_KEY,
-                  language: "en",
-                }}
-              />
+              <View>
+                <Text style={tw`text-sm pb-2`}>Deliver To:</Text>
+                <GooglePlacesAutocomplete
+                  placeholder={
+                    endDescription ? endDescription : "Deliver Location"
+                  }
+                  debounce={200}
+                  styles={toInputBoxStyles}
+                  onPress={(data, details = null) => {
+                    setEndLocation(details.geometry.location);
+                    setEndDescription(data.description);
+                  }}
+                  fetchDetails={true}
+                  minLength={2}
+                  enablePoweredByContainer={false}
+                  nearbyPlacesAPI="GooglePlacesSearch"
+                  query={{
+                    key: GOOGLE_MAP_API_KEY,
+                    language: "en",
+                  }}
+                />
               </View>
-
 
               <View style={{ display: "flex", flexDirection: "row" }}>
                 <TextInput
@@ -299,20 +282,17 @@ export default function NewParcelScreen({ navigation }) {
 
               <View style={tw`flex mt-2`}>
                 <Text style={tw`pb-2 font-bold text-xl`}>
-                  Distance :  {travelInfo?.distance.text}
-
-                </Text>  
+                  Distance : {travelInfo?.distance.text}
+                </Text>
                 <Text style={tw`pb-2 font-bold text-xl`}>
-                  Price : {new Intl.NumberFormat("en-US", {
-                              style: "currency",
-                              currency: "USD",
-                              // currencyDisplay: "",
-                              }).format(price)
-                          }
+                  Price :{" "}
+                  {new Intl.NumberFormat("en-US", {
+                    style: "currency",
+                    currency: "USD",
+                    // currencyDisplay: "",
+                  }).format(price)}
                 </Text>
               </View>
-
-
 
               <View
                 style={{
@@ -344,9 +324,9 @@ const toInputBoxStyles = StyleSheet.create({
   },
   textInput: {
     backgroundColor: "#DDDDDF",
-    fontFamily:"Roboto-Medium",
+    fontFamily: "Roboto-Medium",
     borderRadius: 0,
-    padding:20,
+    padding: 20,
     fontSize: 16,
     width: "100%",
     // height: 40,

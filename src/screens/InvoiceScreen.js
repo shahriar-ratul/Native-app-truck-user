@@ -57,16 +57,16 @@ const InvoiceScreen = () => {
   return (
     <DataTable>
       <DataTable.Header>
-        <DataTable.Title>Dessert</DataTable.Title>
-        <DataTable.Title numeric>Calories</DataTable.Title>
-        <DataTable.Title numeric>Fat</DataTable.Title>
+        <DataTable.Title>Date</DataTable.Title>
+        <DataTable.Title>Distance</DataTable.Title>
+        <DataTable.Title numeric>Total</DataTable.Title>
       </DataTable.Header>
 
       {data.map((row) => (
         <DataTable.Row key={row.id}>
-          <DataTable.Cell>Frozen yogurt</DataTable.Cell>
-          <DataTable.Cell numeric>159</DataTable.Cell>
-          <DataTable.Cell numeric>6.0</DataTable.Cell>
+          <DataTable.Cell >{row.date}</DataTable.Cell>
+          <DataTable.Cell numeric>{row.distance}</DataTable.Cell>
+          <DataTable.Cell numeric>{row.total}</DataTable.Cell>
         </DataTable.Row>
       ))}
 

@@ -94,17 +94,17 @@ const Map = () => {
       try {
         await axios
           .get(
-            `https://maps.googleapis.com/maps/api/distancematrix/json?origins=${startDescription}&destinations=${endDescription}&key=${GOOGLE_MAP_API_KEY}`
+            `https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins=${startDescription}&destinations=${endDescription}&key=${GOOGLE_MAP_API_KEY}`
           )
           .then((res) => {
             if (res.data) {
               if (res.data.rows[0].elements[0].status === "OK") {
                 let value = res.data.rows[0].elements[0].distance.value;
-                let data = value / 1000;
-                setDistance(data);
-                setPrice(data * 1000);
+                let data = value/1609 * 1;
+                setDistance(value/1609);
+                setPrice(data);
                 setTravelTimeInformation(res.data.rows[0].elements[0]);
-                // console.log(res.data.rows[0].elements[0].distance.value)
+                console.log(res.data.rows[0].elements[0])
               }
             }
           })
