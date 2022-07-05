@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import { GOOGLE_MAP_API_KEY } from "@env";
 import tw from "twrnc";
-import { Button, IconButton, TextInput } from "react-native-paper";
+import { Button, Checkbox, IconButton, TextInput } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useFonts } from "expo-font";
 import Loading from "../components/Loading";
@@ -292,6 +292,11 @@ export default function NewParcelScreen({ navigation }) {
                     // currencyDisplay: "",
                   }).format(price)}
                 </Text>
+              </View>
+              <View>
+                <Checkbox.Item color="blue" label="Cash On Delivery" status="checked" style={{
+                  backgroundColor: "#fff",
+                }} />
               </View>
 
               <View

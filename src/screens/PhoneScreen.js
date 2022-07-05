@@ -71,7 +71,7 @@ export default function PhoneScreen({ navigation }) {
           <Text
             style={{
               fontFamily: "Roboto-Medium",
-              fontSize: 28,
+              fontSize: 20,
               fontWeight: "500",
               color: "blue",
               marginBottom: 15,
@@ -92,7 +92,7 @@ export default function PhoneScreen({ navigation }) {
             )}
 
             <View style={{ display: "flex", flexDirection: "row" }}>
-              <IconButton icon="key" size={30} />
+              <IconButton icon="key" size={30}  color="#FF4466"  />
               <TextInput
                 style={{ width: "80%" }}
                 label="Otp"
@@ -121,6 +121,7 @@ export default function PhoneScreen({ navigation }) {
                 icon="login"
                 mode="contained"
                 onPress={handleSubmit}
+                color="#5071F1"
               >
                 Submit
               </Button>

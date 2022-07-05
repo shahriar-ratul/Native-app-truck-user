@@ -24,7 +24,6 @@ export default function OtpScreen({ navigation }) {
       initialValues={{ phone: "+" }}
       validationSchema={Yup.object().shape({
         phone: Yup.string().required("phone is required"),
-
       })}
       onSubmit={async (values) => {
         try{
@@ -69,7 +68,7 @@ export default function OtpScreen({ navigation }) {
           <Text
             style={{
               fontFamily: "Roboto-Medium",
-              fontSize: 28,
+              fontSize: 20,
               fontWeight: "500",
               color: "blue",
               marginBottom: 15,
@@ -88,7 +87,7 @@ export default function OtpScreen({ navigation }) {
             )}
 
             <View style={{ display: "flex", flexDirection: "row" }}>
-              <IconButton icon="phone" size={30} />
+              <IconButton icon="phone" size={30}  color="#FF4466" />
               <TextInput
                 style={{ width: "80%" }}
                 label="phone"
@@ -119,6 +118,7 @@ export default function OtpScreen({ navigation }) {
                 icon="login"
                 mode="contained"
                 onPress={handleSubmit}
+                color="#5071F1"
               >
                 Register
               </Button>

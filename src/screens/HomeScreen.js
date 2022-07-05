@@ -34,11 +34,6 @@ export default function HomeScreen({ navigation }) {
     "Roboto-Bold": require("./../assets/fonts/Roboto-Bold.ttf"),
   });
 
-  if (!fontsLoaded) {
-    return <Loading />;
-  }
-
-
 
   const data = [
     {
@@ -92,15 +87,16 @@ export default function HomeScreen({ navigation }) {
     },
   ];
 
-
-
+  if (!fontsLoaded) {
+    return <Loading />;
+  }
 
 
   return (
     <>
       <Header />
       <View style={{ flex: 1 }}>
-        <ScrollView>
+        <ScrollView style={{backgroundColor:'#ffffff'}}>
         <View style={tw`pb-4 mx-auto`}>
           <Image
             source={require("./../assets/images/logo.png")}
@@ -114,7 +110,7 @@ export default function HomeScreen({ navigation }) {
             <TouchableOpacity     
              key={index} onPress={() => navigation.navigate(item.screen)}>
                  <Card.Title
-                  style={tw`text-center text-2xl p-4 pl-4  mb-4 bg-yellow-100 rounded-lg`}
+                  style={tw`text-center text-2xl p-4 pl-4  mb-4 bg-white rounded-lg`}
                   title={item.title}
                   subtitle={item.subtitle}
                   left={(props) => <Avatar.Icon {...props} icon={item.icon}/>}

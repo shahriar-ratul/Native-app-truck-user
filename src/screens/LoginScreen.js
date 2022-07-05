@@ -85,19 +85,7 @@ export default function LoginScreen({ navigation }) {
           <Text
             style={{
               fontFamily: "Roboto-Medium",
-              fontSize: 28,
-              fontWeight: "500",
-              color: "blue",
-              marginBottom: 15,
-              textAlign: "center",
-            }}
-          >
-            Welcome back!
-          </Text>
-          <Text
-            style={{
-              fontFamily: "Roboto-Medium",
-              fontSize: 28,
+              fontSize: 18,
               fontWeight: "500",
               color: "#333",
               marginBottom: 30,
@@ -123,8 +111,8 @@ export default function LoginScreen({ navigation }) {
               </Text>
             )}
 
-            <View style={{ display: "flex", flexDirection: "row" }}>
-              <IconButton icon="email" size={30} />
+            <View style={{ display: "flex", flexDirection: "row",marginBottom:10 }}>
+              <IconButton icon="email" size={30} color="#FF4466"/>
               <TextInput
                 style={{ width: "80%" }}
                 label="Email"
@@ -148,7 +136,7 @@ export default function LoginScreen({ navigation }) {
             )}
 
             <View style={{ display: "flex", flexDirection: "row" }}>
-              <IconButton icon="key" size={30} />
+              <IconButton icon="key" size={30} color="#FF4466" />
               <TextInput
                 style={{ width: "80%" }}
                 label="Password"
@@ -177,6 +165,7 @@ export default function LoginScreen({ navigation }) {
                 icon="login"
                 mode="contained"
                 onPress={handleSubmit}
+                color="#5071F1"
               >
                 Login
               </Button>

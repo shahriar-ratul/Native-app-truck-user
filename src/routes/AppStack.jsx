@@ -10,6 +10,7 @@ import NewParcelScreen from "../screens/NewParcelScreen";
 import NewPackageScreen from "../screens/NewPackageScreen";
 import PackageScreen from "../screens/PackageScreen";
 import ParcelScreen from "../screens/ParcelScreen";
+import InvoiceDetailsScreen from "../screens/InvoiceDetailsScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -22,7 +23,7 @@ const AppStack = () => {
         options={{
           title: "Home",
           headerStyle: {
-            backgroundColor: "#f3b344",
+            backgroundColor: "#FF4466",
           },
           headerTintColor: "#fff",
           headerTitleAlign: "center",
@@ -37,7 +38,7 @@ const AppStack = () => {
         options={{
           title: "Get a Ride",
           headerStyle: {
-            backgroundColor: "#f3b344",
+            backgroundColor: "#FF4466",
           },
           headerTintColor: "#fff",
           headerTitleAlign: "center",
@@ -52,6 +53,21 @@ const AppStack = () => {
         options={{
           title: "Invoices",
           headerStyle: {
+            backgroundColor: "#FF4466",
+          },
+          headerTintColor: "#fff",
+          headerTitleAlign: "center",
+          headerTitleStyle: {
+            fontWeight: "bold",
+          },
+        }}
+      />
+        <Stack.Screen
+        name="InvoicesDetails"
+        component={InvoiceDetailsScreen}
+        options={{
+          title: "Invoices Details",
+          headerStyle: {
             backgroundColor: "#f3b344",
           },
           headerTintColor: "#fff",
@@ -61,13 +77,15 @@ const AppStack = () => {
           },
         }}
       />
+
+
       <Stack.Screen
         name="Trips"
         component={TripsScreen}
         options={{
           title: "Trips",
           headerStyle: {
-            backgroundColor: "#f3b344",
+            backgroundColor: "#FF4466",
           },
           headerTintColor: "#fff",
           headerTitleAlign: "center",
@@ -76,13 +94,14 @@ const AppStack = () => {
           },
         }}
       />
+
       <Stack.Screen
         name="Packages"
         component={PackageScreen}
         options={{
           title: "Package",
           headerStyle: {
-            backgroundColor: "#f3b344",
+            backgroundColor: "#FF4466",
           },
           headerTintColor: "#fff",
           headerTitleAlign: "center",
@@ -97,7 +116,7 @@ const AppStack = () => {
         options={{
           title: "New Packages",
           headerStyle: {
-            backgroundColor: "#f3b344",
+            backgroundColor: "#FF4466",
           },
           headerTintColor: "#fff",
           headerTitleAlign: "center",
@@ -112,7 +131,7 @@ const AppStack = () => {
         options={{
           title: "Parcels",
           headerStyle: {
-            backgroundColor: "#f3b344",
+            backgroundColor: "#FF4466",
           },
           headerTintColor: "#fff",
           headerTitleAlign: "center",
@@ -128,7 +147,7 @@ const AppStack = () => {
         options={{
           title: "New Parcel",
           headerStyle: {
-            backgroundColor: "#f3b344",
+            backgroundColor: "#FF4466",
           },
           headerTintColor: "#fff",
           headerTitleAlign: "center",

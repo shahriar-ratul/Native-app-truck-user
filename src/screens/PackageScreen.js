@@ -38,22 +38,16 @@ const PackageScreen = () => {
 
 
   React.useEffect(() => {
-    let mounted = true;
-    fetchData();
-    return () => {
-      mounted = false;
-    }
-
+    let controller = new AbortController();
+    (
+      async () => {
+        await  fetchData();
+        controller = null
+      }
+    )
+    return () => controller.abort();
   }, [page, itemsPerPage]);
 
-  React.useEffect(() => {
-    let mounted = true;
-    fetchData();
-    return () => {
-      mounted = false;
-    }
-    
-  }, []);
 
   return (
     <DataTable>

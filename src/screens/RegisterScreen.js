@@ -106,7 +106,7 @@ export default function RegisterScreen({ navigation }) {
               <Text
                 style={{
                   fontFamily: "Roboto-Medium",
-                  fontSize: 28,
+                  fontSize: 18,
                   fontWeight: "500",
                   color: "blue",
                   marginBottom: 15,
@@ -130,7 +130,7 @@ export default function RegisterScreen({ navigation }) {
                 )}
 
                 <View style={{ display: "flex", flexDirection: "row" }}>
-                  <IconButton icon="account-circle" size={30} />
+                  <IconButton icon="account-circle" size={30}   color="#FF4466" />
                   <TextInput
                     style={{ width: "80%" }}
                     label="First Name"
@@ -158,7 +158,7 @@ export default function RegisterScreen({ navigation }) {
                 )}
 
                 <View style={{ display: "flex", flexDirection: "row" }}>
-                  <IconButton icon="account-circle" size={30} />
+                  <IconButton icon="account-circle" size={30}  color="#FF4466"  />
                   <TextInput
                     style={{ width: "80%" }}
                     label="Last Name"
@@ -186,7 +186,7 @@ export default function RegisterScreen({ navigation }) {
                 )}
 
                 <View style={{ display: "flex", flexDirection: "row" }}>
-                  <IconButton icon="account-circle" size={30} />
+                  <IconButton icon="account-circle" size={30}  color="#FF4466" />
                   <TextInput
                     style={{ width: "80%" }}
                     label="username"
@@ -214,7 +214,7 @@ export default function RegisterScreen({ navigation }) {
                 )}
 
                 <View style={{ display: "flex", flexDirection: "row" }}>
-                  <IconButton icon="email" size={30} />
+                  <IconButton icon="email" size={30}  color="#FF4466" />
                   <TextInput
                     style={{ width: "80%" }}
                     label="Email"
@@ -242,7 +242,7 @@ export default function RegisterScreen({ navigation }) {
                 )}
 
                 <View style={{ display: "flex", flexDirection: "row" }}>
-                  <IconButton icon="key" size={30} />
+                  <IconButton icon="key" size={30}  color="#FF4466" />
                   <TextInput
                     style={{ width: "80%" }}
                     label="Password"

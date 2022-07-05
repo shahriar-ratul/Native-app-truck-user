@@ -20,6 +20,7 @@ import axios from "axios";
 import { BASE_URL } from "../config";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 import { TouchableOpacity } from "react-native-web";
+import { Checkbox } from 'react-native-paper';
 
 export default function NewPackageScreen({ navigation }) {
   const [error, setError] = useState(null);
@@ -293,6 +294,13 @@ export default function NewPackageScreen({ navigation }) {
                   }).format(price)}
                 </Text>
               </View>
+
+              <View>
+                <Checkbox.Item color="blue" label="Cash On Delivery" status="checked" style={{
+                  backgroundColor: "#fff",
+                }} />
+              </View>
+
 
               <View
                 style={{

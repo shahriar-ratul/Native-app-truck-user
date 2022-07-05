@@ -1,12 +1,16 @@
+import { useNavigation } from "@react-navigation/native";
 import axios from "axios";
 import * as React from "react";
-import { DataTable } from "react-native-paper";
+import { Button, DataTable } from "react-native-paper";
 import { BASE_URL } from "../config";
 import createAuthStore from "../store/AuthStore";
 
 const optionsPerPage = [10, 15, 20];
 
 const InvoiceScreen = () => {
+  const navigation = useNavigation();
+
+
   const [page, setPage] = React.useState(1);
   const [totalPage, setTotalPage] = React.useState(1);
   const [itemsPerPage, setItemsPerPage] = React.useState(optionsPerPage[0]);
@@ -37,36 +41,39 @@ const InvoiceScreen = () => {
   };
 
   React.useEffect(() => {
-    let mounted = true;
-    fetchData();
-    return () => {
-      mounted = false;
-    }
-
+    let controller = new AbortController();
+    (
+      async () => {
+        await  fetchData();
+      }
+    )();
+    return () => controller.abort();
   }, [page, itemsPerPage]);
-
-  React.useEffect(() => {
-    let mounted = true;
-    fetchData();
-    return () => {
-      mounted = false;
-    }
-    
-  }, []);
 
   return (
     <DataTable>
       <DataTable.Header>
         <DataTable.Title>Date</DataTable.Title>
-        <DataTable.Title>Distance</DataTable.Title>
-        <DataTable.Title numeric>Total</DataTable.Title>
+        <DataTable.Title>Total</DataTable.Title>
+        <DataTable.Title numeric>Stats</DataTable.Title>
+        <DataTable.Title>Action</DataTable.Title>
       </DataTable.Header>
 
       {data.map((row) => (
         <DataTable.Row key={row.id}>
-          <DataTable.Cell >{row.date}</DataTable.Cell>
-          <DataTable.Cell numeric>{row.distance}</DataTable.Cell>
+          <DataTable.Cell >{row.created_at}</DataTable.Cell>
           <DataTable.Cell numeric>{row.total}</DataTable.Cell>
+          <DataTable.Cell numeric>{row.status}</DataTable.Cell>
+          <DataTable.Cell onPress={() => {
+            navigation.navigate('InvoicesDetails', {
+              invoice: row,
+            });
+          }}>
+            <Button>
+              Details
+            </Button>
+          </DataTable.Cell>
+
         </DataTable.Row>
       ))}
 
