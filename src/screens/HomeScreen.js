@@ -35,6 +35,10 @@ export default function HomeScreen({ navigation }) {
   });
 
 
+  if (!fontsLoaded) {
+    return <Loading />;
+  }
+
   const data = [
     {
       id: "1",
@@ -87,9 +91,7 @@ export default function HomeScreen({ navigation }) {
     },
   ];
 
-  if (!fontsLoaded) {
-    return <Loading />;
-  }
+
 
 
   return (
