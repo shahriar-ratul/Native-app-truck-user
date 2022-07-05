@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "TruckUser",
-    "slug": "TruckUser",
+    "name": "10xTrucks User",
+    "slug": "10xTruckUser",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./src/assets/icon.png",
@@ -24,7 +24,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./src/assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
-      }
+      },
+      "package": "app.trucks"
     },
     "web": {
       "favicon": "./src/assets/favicon.png"
