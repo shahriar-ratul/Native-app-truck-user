@@ -42,7 +42,9 @@ const Map = () => {
 
   const [errorMsg, setErrorMsg] = useState(null);
 
-  useEffect(() => {
+  
+  const fetchLocation = async () => {
+    setLoading(true);
     if (origin && destination) {
       setCurrentLocation({
         latitude: origin.lat,
@@ -55,23 +57,25 @@ const Map = () => {
       });
     }
 
-    (async () => {
-      let { status } = await Location.requestForegroundPermissionsAsync();
-      if (status !== "granted") {
-        setErrorMsg("Permission to access location was denied");
-        return;
-      }
+    const { status } = await Location.requestForegroundPermissionsAsync();
 
-      let location = await Location.getCurrentPositionAsync({});
-      setInitialLocation({
-        latitude: location.coords.latitude,
-        longitude: location.coords.longitude,
-      });
 
-      setLoading(false);
-      // console.log(location);
-    })();
-  }, []);
+    const deviceLocation = await Location.getCurrentPositionAsync({
+      accuracy: Location.Accuracy.Balanced,
+    });
+
+    setInitialLocation({
+      latitude: deviceLocation.coords.latitude,
+      longitude: deviceLocation.coords.longitude,
+    });
+    setLoading(false);
+  };
+  
+  React.useEffect(() => {
+    fetchLocation();
+  }, [])
+
+  
 
   useEffect(() => {
     if (origin && destination && mapRef.current?.fitToElements ){
