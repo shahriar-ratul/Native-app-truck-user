@@ -7,7 +7,7 @@ import {
   ScrollView,
   StyleSheet,
 } from "react-native";
-import { GOOGLE_MAP_API_KEY } from "@env";
+
 import tw from "twrnc";
 import { Button, Checkbox, IconButton, TextInput } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -17,7 +17,7 @@ import { Formik } from "formik";
 import * as Yup from "yup";
 import createAuthStore from "../store/AuthStore";
 import axios from "axios";
-import { BASE_URL } from "../config";
+import { BASE_URL, GOOGLE_MAP_API_KEY } from "../config";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 import { TouchableOpacity } from "react-native-web";
 

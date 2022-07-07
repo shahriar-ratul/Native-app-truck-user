@@ -12,23 +12,14 @@ import {
 } from "react-native";
 import tw from "twrnc";
 import Loading from "../components/Loading";
-import NavOptions from "../components/NavOptions";
-import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
-import { GOOGLE_MAP_API_KEY } from "@env";
+
+
 import userLocationStore from "../store/UserLocation";
-import { SafeAreaView } from "react-native-safe-area-context";
+
 import Header from "../components/Header";
 import { Avatar, Card, IconButton } from "react-native-paper";
 
 export default function HomeScreen({ navigation }) {
-  const setDistance = userLocationStore((state) => state.setDistance);
-  const setEndDescription = userLocationStore((state) => state.setEndDescription);
-  const setEndLocation = userLocationStore((state) => state.setEndLocation);
-  const setPrice = userLocationStore((state) => state.setPrice);
-  const setStartDescription = userLocationStore((state) => state.setStartDescription);
-  const setStartLocation = userLocationStore((state) => state.setStartLocation);
-  const setTravelTimeInformation = userLocationStore((state) => state.setTravelTimeInformation);
-
 
   const [fontsLoaded] = useFonts({
     "Roboto-Bold": require("./../assets/fonts/Roboto-Bold.ttf"),

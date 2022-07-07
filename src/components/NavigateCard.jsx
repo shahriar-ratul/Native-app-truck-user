@@ -3,9 +3,10 @@ import React from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import tw from 'twrnc'
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
-import {GOOGLE_MAP_API_KEY} from '@env'
+
 import userLocationStore from '../store/UserLocation';
 import { useNavigation } from '@react-navigation/native';
+import { GOOGLE_MAP_API_KEY } from '../config';
 const NavigateCard = () => {
   const storeEndLocation = userLocationStore((state)=> state.setEndLocation);
   const storeEndDescription = userLocationStore((state)=> state.setEndDescription);

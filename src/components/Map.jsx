@@ -4,7 +4,8 @@ import MapView, { Marker } from "react-native-maps";
 import tw from "twrnc";
 
 import MapViewDirections from "react-native-maps-directions";
-import { GOOGLE_MAP_API_KEY } from "@env";
+import { GOOGLE_MAP_API_KEY } from "../config";
+
 import userLocationStore from "../store/UserLocation";
 
 import * as Location from "expo-location";

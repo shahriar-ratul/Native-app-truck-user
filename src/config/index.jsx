@@ -1,2 +1,2 @@
-// export const BASE_URL = 'http://www.sdevsoft.xyz';
 export const BASE_URL = 'https://api.10xtrucks.com';
+export const GOOGLE_MAP_API_KEY = 'AIzaSyBvmhx8TzRvMn2knRFl8HzcSSKDhxyffOI';

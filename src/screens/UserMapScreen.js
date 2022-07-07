@@ -10,10 +10,11 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 import tw from "twrnc";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
-import { GOOGLE_MAP_API_KEY } from "@env";
+
 import { useNavigation } from "@react-navigation/native";
 import Map from "../components/Map";
 import userLocationStore from "../store/UserLocation";
+import { GOOGLE_MAP_API_KEY } from "../config";
 const UserMapScreen = () => {
   const navigation = useNavigation();
   const origin = userLocationStore((state) => state.startLocation);
