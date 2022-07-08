@@ -42,12 +42,10 @@ const PackageScreen = () => {
     (
       async () => {
         await  fetchData();
-        controller = null
       }
-    )
+    )();
     return () => controller.abort();
   }, [page, itemsPerPage]);
-
 
   return (
     <DataTable>
@@ -63,8 +61,8 @@ const PackageScreen = () => {
         <DataTable.Row key={row.id}>
           <DataTable.Cell>{row.start_location}</DataTable.Cell>
           <DataTable.Cell>{row.end_location}</DataTable.Cell>
-          <DataTable.Cell numeric>{row.distance}</DataTable.Cell>
-          <DataTable.Cell numeric>{row.total}</DataTable.Cell>
+          <DataTable.Cell>{row.distance}</DataTable.Cell>
+          <DataTable.Cell >{row.total}</DataTable.Cell>
           <DataTable.Cell> {row.current_status}</DataTable.Cell>
         </DataTable.Row>
       ))}

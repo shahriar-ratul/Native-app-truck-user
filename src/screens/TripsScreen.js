@@ -42,16 +42,15 @@ const TripsScreen = () => {
     (
       async () => {
         await  fetchData();
-        controller = null
       }
-    )
+    )();
     return () => controller.abort();
   }, [page, itemsPerPage]);
 
   return (
     <DataTable>
       <DataTable.Header>
-        <DataTable.Title>Start</DataTable.Title>
+        <DataTable.Title >Start</DataTable.Title>
         <DataTable.Title >Destination</DataTable.Title>
         <DataTable.Title >Distance</DataTable.Title>
         <DataTable.Title >Price</DataTable.Title>
@@ -62,8 +61,8 @@ const TripsScreen = () => {
         <DataTable.Row key={row.id}>
           <DataTable.Cell>{row.start_location}</DataTable.Cell>
           <DataTable.Cell>{row.end_location}</DataTable.Cell>
-          <DataTable.Cell numeric>{row.distance}</DataTable.Cell>
-          <DataTable.Cell numeric>{row.total}</DataTable.Cell>
+          <DataTable.Cell >{row.distance}</DataTable.Cell>
+          <DataTable.Cell>{row.total}</DataTable.Cell>
           <DataTable.Cell>{row.current_status}</DataTable.Cell>
         </DataTable.Row>
       ))}
