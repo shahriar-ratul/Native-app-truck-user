@@ -19,14 +19,23 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "app.trucks"
+      "bundleIdentifier": "app.trucks",
+      "config":{
+        "googleMapsApiKey":"AIzaSyA32d7EcW3UhgEZ5vgA7o2HBkAEw0UEaN0"
+      }
+
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./src/assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
       },
-      "package": "app.trucks"
+      "package": "app.trucks",
+      "config":{
+        "googleMaps":{
+          "apiKey":"AIzaSyA32d7EcW3UhgEZ5vgA7o2HBkAEw0UEaN0"
+        }
+      }
     },
     "web": {
       "favicon": "./src/assets/favicon.png"
