@@ -21,7 +21,7 @@
       "supportsTablet": true,
       "bundleIdentifier": "app.trucks",
       "config":{
-        "googleMapsApiKey":"AIzaSyA32d7EcW3UhgEZ5vgA7o2HBkAEw0UEaN0"
+        "googleMapsApiKey":"AIzaSyBvmhx8TzRvMn2knRFl8HzcSSKDhxyffOI"
       }
 
     },
@@ -33,7 +33,7 @@
       "package": "app.trucks",
       "config":{
         "googleMaps":{
-          "apiKey":"AIzaSyA32d7EcW3UhgEZ5vgA7o2HBkAEw0UEaN0"
+          "apiKey":"AIzaSyBvmhx8TzRvMn2knRFl8HzcSSKDhxyffOI"
         }
       }
     },
