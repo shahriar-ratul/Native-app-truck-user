@@ -39,13 +39,6 @@ export default function HomeScreen({ navigation }) {
       screen: "MapScreen",
     }, 
     {
-      id: "6",
-      title: "New Parcels",
-      subtitle: "Send your parcels to your customers",
-      icon: 'truck-cargo-container',
-      screen: "NewParcel",
-    },
-    {
       id: "7",
       title: "New Packages",
       subtitle: "Send your packages to your customers",
@@ -65,13 +58,6 @@ export default function HomeScreen({ navigation }) {
       subtitle: "View all your invoices",
       icon: 'truck',
       screen: "Invoices",
-    },
-    {
-      id: "4",
-      title: "Parcels",
-      subtitle: "View all your parcels",
-      icon: 'truck-fast',
-      screen: "Parcels",
     },
     {
       id: "5",

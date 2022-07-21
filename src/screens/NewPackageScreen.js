@@ -6,10 +6,12 @@ import {
   KeyboardAvoidingView,
   ScrollView,
   StyleSheet,
+  FlatList,
+  Alert,
 } from "react-native";
-
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import tw from "twrnc";
-import { Button, IconButton, TextInput } from "react-native-paper";
+import { Button, Dialog, IconButton, Paragraph, TextInput } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useFonts } from "expo-font";
 import Loading from "../components/Loading";
@@ -32,9 +34,45 @@ export default function NewPackageScreen({ navigation }) {
   const [price, setPrice] = useState(0);
   const [travelInfo, setTravelInfo] = useState(null);
   const token = createAuthStore((state) => state.token);
-  const [success, setSuccess] = useState(null);
   const [weight, setWeight] = useState(null);
   const [notes, setNotes] = useState(null);
+
+  const [fastload, setFastload] = useState(false);
+  const [stackable, setStackable] = useState(false);
+  const [dockLevel, setDockLevel] = useState(false);
+  const [hazardous, setHazardous] = useState(false);
+  const [visible, setVisible] = useState(true);
+
+  const showDialog = () => setVisible(true);
+
+  const hideDialog = () => setVisible(false);
+
+  const showAlert = ({title,message}) =>
+  Alert.alert(
+    title,
+    message,
+    [
+      {
+        text: "Go To Home",
+        onPress: () => {
+          console.log("ok pressed");
+          navigation.navigate("Home")
+        },
+        style: "default",
+      },
+    ],
+    {
+      cancelable: true,
+      onDismiss: () =>{
+        console.log("dismissed")
+        navigation.navigate("Home")
+      }
+       
+    }
+  );
+
+
+
   useEffect(() => {
     let mounted = true;
     if (mounted) {
@@ -104,6 +142,10 @@ export default function NewPackageScreen({ navigation }) {
       data.append("total", price);
       data.append("weight", weight);
       data.append("notes", notes);
+      data.append("stackable", stackable);
+      data.append("dock_level", dockLevel);
+      data.append("hazardous", hazardous);
+      data.append("fastload", fastload);
 
       const response = await axios({
         method: "post",
@@ -113,7 +155,9 @@ export default function NewPackageScreen({ navigation }) {
       });
 
       if (response.data.success === true) {
-        navigation.navigate("Home");
+        showAlert({title:"Success",message:response.data.message})
+      }else {
+        showAlert({title:"Error",message:response.data.message})
       }
 
       // const response = await axios.post(url, data, header)
@@ -153,8 +197,7 @@ export default function NewPackageScreen({ navigation }) {
         isValid,
         handleSubmit,
       }) => (
-        <SafeAreaView style={{ flex: 1, justifyContent: "flex-start" }}>
-          <KeyboardAvoidingView>
+          <KeyboardAvoidingView style={{ flex: 1, justifyContent: "flex-start" }}>
             <View style={tw`px-4`}>
               {error && (
                 <Text
@@ -165,18 +208,6 @@ export default function NewPackageScreen({ navigation }) {
                   }}
                 >
                   {error}
-                </Text>
-              )}
-
-              {success && (
-                <Text
-                  style={{
-                    fontSize: 16,
-                    color: "#00FF0A",
-                    textAlign: "center",
-                  }}
-                >
-                  {success}
                 </Text>
               )}
               <View>
@@ -224,11 +255,10 @@ export default function NewPackageScreen({ navigation }) {
                   }}
                 />
               </View>
-
               <View style={{ display: "flex", flexDirection: "row" }}>
                 <TextInput
                   multiline={true}
-                  numberOfLines={6}
+                  numberOfLines={3}
                   style={tw`mb-2 w-full`}
                   label="Notes"
                   mode="flat"
@@ -241,6 +271,7 @@ export default function NewPackageScreen({ navigation }) {
                   value={values.notes}
                 />
               </View>
+
 
               {touched.notes && errors.notes && (
                 <Text
@@ -280,27 +311,68 @@ export default function NewPackageScreen({ navigation }) {
                   {errors.weight}
                 </Text>
               )}
-
+             
               <View style={tw`flex mt-2`}>
                 <Text style={tw`pb-2 font-bold text-xl`}>
                   Distance : {travelInfo?.distance.text}
                 </Text>
-                <Text style={tw`pb-2 font-bold text-xl`}>
+                {/* <Text style={tw`pb-2 font-bold text-xl`}>
                   Price :{" "}
                   {new Intl.NumberFormat("en-US", {
                     style: "currency",
                     currency: "USD",
                     // currencyDisplay: "",
                   }).format(price)}
-                </Text>
+                </Text> */}
               </View>
 
+              <View>
+                <Checkbox.Item color="blue" label="Stackable" 
+                   status={stackable ? 'checked' : 'unchecked'}
+                    onPress={() => {
+                      setStackable(!stackable);
+                    }} 
+                 style={{
+                  backgroundColor: "#fff",
+                  zIndex: 1,
+                }} />
+              </View>
+              <View>
+                <Checkbox.Item color="blue" label="Hazardous" 
+                   status={hazardous ? 'checked' : 'unchecked'}
+                    onPress={() => {
+                      setHazardous(!hazardous);
+                    }} 
+                 style={{
+                  backgroundColor: "#fff",
+                }} />
+              </View>
+              <View>
+                <Checkbox.Item color="blue" label="Fast Load" 
+                   status={fastload ? 'checked' : 'unchecked'}
+                    onPress={() => {
+                      setFastload(!fastload);
+                    }} 
+                 style={{
+                  backgroundColor: "#fff",
+                }} />
+              </View>
+              <View>
+                <Checkbox.Item color="blue" label="Dock Level" 
+                   status={dockLevel ? 'checked' : 'unchecked'}
+                    onPress={() => {
+                      setDockLevel(!dockLevel);
+                    }} 
+                 style={{
+                  backgroundColor: "#fff",
+                }} />
+              </View>
+              
               <View>
                 <Checkbox.Item color="blue" label="Cash On Delivery" status="checked" style={{
                   backgroundColor: "#fff",
                 }} />
               </View>
-
 
               <View
                 style={{
@@ -320,9 +392,9 @@ export default function NewPackageScreen({ navigation }) {
               </View>
             </View>
           </KeyboardAvoidingView>
-        </SafeAreaView>
       )}
     </Formik>
+
   );
 }
 

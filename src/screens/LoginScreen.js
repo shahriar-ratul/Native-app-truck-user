@@ -173,6 +173,19 @@ export default function LoginScreen({ navigation }) {
             <View
               style={{ alignItems: "center", marginTop: 30, marginBottom: 30 }}
             >
+              <Button
+                style={{ width: "50%" }}
+                icon="login"
+                mode="text"
+                // onPress={() => navigation.navigate("ForgotPasswordPhone")}
+                onPress={() => navigation.navigate("ForgotPassword")}
+              >
+                Forgot Password?
+              </Button>
+            </View>
+            <View
+              style={{ alignItems: "center", marginTop: 30, marginBottom: 30 }}
+            >
               <Text style={{ fontSize: 16, color: "#333" }}>
                 Don't have an account?{" "}
               </Text>

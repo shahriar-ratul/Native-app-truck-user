@@ -9,6 +9,8 @@ const authStore = (set) => ({
     user : null,
     phone: null,
     OtpVerify: false,
+    ForgotPasswordVerify: false,
+    ForgotPhone: null,
     setPhone : (phone) => set({phone:phone}),
     setToken : (token) => set({token: token}),
     setUser : (user) => set({user:user}),
@@ -16,6 +18,9 @@ const authStore = (set) => ({
     successOtpVerify: () => set({ OtpVerify: true }),
     removeOtpVerify: () => set({ OtpVerify: false }),
     successLogout: () => set({ isLogin: false }),
+    successForgotPasswordVerify: () => set({ ForgotPasswordVerify: true }),
+    removeForgotPasswordVerify: () => set({ ForgotPasswordVerify: false }),
+    setForgotPhone: (phone) => set({ ForgotPhone: phone  }),
 })
 
 

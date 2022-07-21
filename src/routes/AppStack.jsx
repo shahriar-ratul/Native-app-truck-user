@@ -1,7 +1,7 @@
 import React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import HomeScreen from "../screens/HomeScreen";
-import GetRideScreen from "../screens/GetRideScreen";
+
 import MapScreen from "../screens/MapScreen";
 import InvoiceScreen from "../screens/InvoiceScreen";
 import TripsScreen from "../screens/TripsScreen";
@@ -11,6 +11,7 @@ import NewPackageScreen from "../screens/NewPackageScreen";
 import PackageScreen from "../screens/PackageScreen";
 import ParcelScreen from "../screens/ParcelScreen";
 import InvoiceDetailsScreen from "../screens/InvoiceDetailsScreen";
+import TripDetailsScreen from "../screens/TripDetailsScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -67,6 +68,22 @@ const AppStack = () => {
         component={InvoiceDetailsScreen}
         options={{
           title: "Invoices Details",
+          headerStyle: {
+            backgroundColor: "#f3b344",
+          },
+          headerTintColor: "#fff",
+          headerTitleAlign: "center",
+          headerTitleStyle: {
+            fontWeight: "bold",
+          },
+        }}
+      />
+
+        <Stack.Screen
+        name="TripDetails"
+        component={TripDetailsScreen}
+        options={{
+          title: "Details",
           headerStyle: {
             backgroundColor: "#f3b344",
           },

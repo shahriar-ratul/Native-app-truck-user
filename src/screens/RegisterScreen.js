@@ -38,6 +38,7 @@ export default function RegisterScreen({ navigation }) {
         phone: phone,
         password: "",
         role: "user",
+        confirmPassword: "",
       }}
       validationSchema={Yup.object().shape({
         first_name: Yup.string()
@@ -55,6 +56,8 @@ export default function RegisterScreen({ navigation }) {
         password: Yup.string()
           .min(6, "Password must be at least 6 characters")
           .required("Please enter your password"),
+        confirmPassword: Yup.string()
+          .oneOf([Yup.ref('password'), null], 'Passwords must match')
       })}
       onSubmit={async (values) => {
         try {
@@ -266,6 +269,29 @@ export default function RegisterScreen({ navigation }) {
                     {errors.password}
                   </Text>
                 )}
+
+            <View style={{ display: "flex", flexDirection: "row" }}>
+              <IconButton icon="key" size={30}  color="#FF4466"  />
+              <TextInput
+                style={{ width: "80%" }}
+                label="Confirm Password"
+                mode="flat"
+                keyboardType="default"
+                placeholder="Confirm password"
+                placeholderTextColor="black"
+                secureTextEntry={true}
+                onChangeText={handleChange("confirmPassword")}
+                onBlur={() => setFieldTouched("confirmPassword")}
+                value={values.confirmPassword}
+              />
+            </View>
+            {touched.confirmPassword && errors.confirmPassword && (
+              <Text
+                style={{ fontSize: 12, color: "#FF0D10", textAlign: "center" }}
+              >
+                {errors.confirmPassword}
+              </Text>
+            )}
 
                 <View
                   style={{
