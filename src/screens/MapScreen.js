@@ -9,7 +9,9 @@ const MapScreen = () => {
   const Stack = createNativeStackNavigator();
   return (
     <View style={tw`flex-1`}>
+      
           <Stack.Navigator>
+            
             <Stack.Screen
               name="UserMapScreen"
               component={UserMapScreen}

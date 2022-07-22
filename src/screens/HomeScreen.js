@@ -73,6 +73,7 @@ export default function HomeScreen({ navigation }) {
 
   return (
     <>
+      <StatusBar backgroundColor="#03baab" barStyle="light-content" />
       <View style={{ flex: 1 }}>
         <ScrollView style={{backgroundColor:'#ffffff'}}>
         <View style={tw`pb-4 mx-auto`}>

@@ -8,7 +8,9 @@ const InvoiceDetailsScreen = ({route}) => {
   const { invoice} = route.params;
   // console.log(invoice);
   return (
+    
     <Card>
+      <StatusBar backgroundColor="#03baab" barStyle="light-content" />
     <Card.Content style={{
       alignItems: 'center',
     }}>

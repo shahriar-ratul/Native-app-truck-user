@@ -90,9 +90,9 @@ const AppStack = () => {
         name="Root"
         component={Root}
         options={{
-          title: "Home",
+          title: "10xTrucks",
           headerStyle: {
-            backgroundColor: "#FF4466",
+            backgroundColor: "#03baab",
           },
           headerTintColor: "#fff",
           headerTitleAlign: "center",
@@ -107,7 +107,7 @@ const AppStack = () => {
         options={{
           title: "Get a Ride",
           headerStyle: {
-            backgroundColor: "#FF4466",
+            backgroundColor: "#03baab",
           },
           headerTintColor: "#fff",
           headerTitleAlign: "center",
@@ -122,7 +122,7 @@ const AppStack = () => {
         options={{
           title: "Invoices",
           headerStyle: {
-            backgroundColor: "#FF4466",
+            backgroundColor: "#03baab",
           },
           headerTintColor: "#fff",
           headerTitleAlign: "center",
@@ -170,7 +170,7 @@ const AppStack = () => {
         options={{
           title: "Trips",
           headerStyle: {
-            backgroundColor: "#FF4466",
+            backgroundColor: "#03baab",
           },
           headerTintColor: "#fff",
           headerTitleAlign: "center",
@@ -186,7 +186,7 @@ const AppStack = () => {
         options={{
           title: "Package",
           headerStyle: {
-            backgroundColor: "#FF4466",
+            backgroundColor: "#03baab",
           },
           headerTintColor: "#fff",
           headerTitleAlign: "center",
@@ -201,7 +201,7 @@ const AppStack = () => {
         options={{
           title: "New Packages",
           headerStyle: {
-            backgroundColor: "#FF4466",
+            backgroundColor: "#03baab",
           },
           headerTintColor: "#fff",
           headerTitleAlign: "center",

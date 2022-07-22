@@ -52,6 +52,7 @@ const InvoiceScreen = () => {
 
   return (
     <DataTable>
+      
       <DataTable.Header>
         <DataTable.Title>Date</DataTable.Title>
         <DataTable.Title>Total</DataTable.Title>

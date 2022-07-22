@@ -1,5 +1,6 @@
 import React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import SplashScreen from "../screens/SplashScreen";
 import LoginScreen from '../screens/LoginScreen';
 import RegisterScreen from '../screens/RegisterScreen';
 import PhoneScreen from '../screens/PhoneScreen';
@@ -13,8 +14,20 @@ const Stack = createNativeStackNavigator();
 const AuthStack = () => {
   return (
     <Stack.Navigator>
+       <Stack.Screen name="Welcome" component={SplashScreen}
+      options={{
+          
+          headerStyle: {
+            backgroundColor: "#03baab",
+          },
+          headerTintColor: "#fff",
+          headerTitleAlign: "center",
+          headerTitleStyle: {
+            fontWeight: "bold",
+          },
+        }}/>
       <Stack.Screen name="Login" component={LoginScreen} options={{ title: 'Login Here', headerStyle: {
-            backgroundColor: '#FF4466',
+            backgroundColor: '#03baab',
           },
           headerTintColor: '#fff',
           headerTitleAlign: 'center',
@@ -22,7 +35,7 @@ const AuthStack = () => {
             fontWeight: 'bold',
           }, }} />
       <Stack.Screen name="Register" component={RegisterScreen} options={{ title: 'Register Here', headerStyle: {
-            backgroundColor: '#FF4466',
+            backgroundColor: '#03baab',
           },
           headerTintColor: '#fff',
           headerTitleAlign: 'center',
@@ -30,7 +43,7 @@ const AuthStack = () => {
             fontWeight: 'bold',
           }, }} />
       <Stack.Screen name="Otp" component={OtpScreen} options={{ title: 'OTP', headerStyle: {
-            backgroundColor: '#FF4466',
+            backgroundColor: '#03baab',
           },
           headerTintColor: '#fff',
           headerTitleAlign: 'center',
@@ -38,7 +51,7 @@ const AuthStack = () => {
             fontWeight: 'bold',
           }, }} />
       <Stack.Screen name="Phone" component={PhoneScreen} options={{ title: 'OTP', headerStyle: {
-            backgroundColor: '#FF4466',
+            backgroundColor: '#03baab',
           },
           headerTintColor: '#fff',
           headerTitleAlign: 'center',
@@ -46,8 +59,8 @@ const AuthStack = () => {
             fontWeight: 'bold',
           }, }} />
 
-      <Stack.Screen name="ForgotPassword" component={ForgotPassword} options={{ title: 'OTP', headerStyle: {
-            backgroundColor: '#FF4466',
+      <Stack.Screen name="ForgotPassword" component={ForgotPassword} options={{ title: 'Forgot Password', headerStyle: {
+            backgroundColor: '#03baab',
           },
           headerTintColor: '#fff',
           headerTitleAlign: 'center',
@@ -57,15 +70,15 @@ const AuthStack = () => {
 
       
       <Stack.Screen name="ForgotPasswordPhone" component={ForgotPhoneScreen} options={{ title: 'OTP', headerStyle: {
-            backgroundColor: '#FF4466',
+            backgroundColor: '#03baab',
           },
           headerTintColor: '#fff',
           headerTitleAlign: 'center',
           headerTitleStyle: {
             fontWeight: 'bold',
           }, }} />
-      <Stack.Screen name="ForgotPasswordOtp" component={ForgotOtpScreen} options={{ title: 'OTP', headerStyle: {
-            backgroundColor: '#FF4466',
+      <Stack.Screen name="ForgotPasswordOtp" component={ForgotOtpScreen} options={{ title: 'Phone', headerStyle: {
+            backgroundColor: '#03baab',
           },
           headerTintColor: '#fff',
           headerTitleAlign: 'center',

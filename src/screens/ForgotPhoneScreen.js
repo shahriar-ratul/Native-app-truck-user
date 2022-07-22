@@ -89,7 +89,7 @@ export default function ForgotPhoneScreen({ navigation }) {
             )}
 
             <View style={{ display: "flex", flexDirection: "row" }}>
-              <IconButton icon="phone" size={30}  color="#FF4466" />
+              <IconButton icon="phone" size={30}  color="#03baab" />
               <TextInput
                 style={{ width: "80%" }}
                 label="phone"
