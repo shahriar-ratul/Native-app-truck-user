@@ -41,11 +41,8 @@ export default function NewPackageScreen({ navigation }) {
   const [stackable, setStackable] = useState(false);
   const [dockLevel, setDockLevel] = useState(false);
   const [hazardous, setHazardous] = useState(false);
-  const [visible, setVisible] = useState(true);
 
-  const showDialog = () => setVisible(true);
 
-  const hideDialog = () => setVisible(false);
 
   const showAlert = ({title,message}) =>
   Alert.alert(
@@ -55,7 +52,6 @@ export default function NewPackageScreen({ navigation }) {
       {
         text: "Go To Home",
         onPress: () => {
-          console.log("ok pressed");
           navigation.navigate("Home")
         },
         style: "default",

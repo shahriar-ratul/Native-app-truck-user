@@ -7,6 +7,7 @@ import createAuthStore from '../store/AuthStore';
 import userLocationStore from '../store/UserLocation';
 import tw from 'twrnc'
 
+
 const Header = () => {
   const token = createAuthStore((state) => state.token);
   const setToken = createAuthStore((state) => state.setToken);
@@ -14,7 +15,6 @@ const Header = () => {
   const clearState = userLocationStore((state) => state.clearState);
   const [error, setError] = React.useState(null);
   const _handleMore = async () => {
-
     try {
       axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
       await axios.post(`${BASE_URL}/api/auth/logout`)
@@ -23,7 +23,6 @@ const Header = () => {
         setToken(null);
         clearState();
         successLogout();
-      
       }  
     })
     .catch((err) => {
@@ -32,7 +31,6 @@ const Header = () => {
       clearState();
       successLogout();
       setError(err.response.data.message);
-
     })
 
     }catch{
@@ -44,10 +42,12 @@ const Header = () => {
   };
 
   return (
-    <Appbar.Header style={tw`mt-0`} >
-      <Appbar.Content title="10xTrucks"  style={{alignItems:'center'}}/>
-      <Appbar.Action icon="logout" onPress={_handleMore} />
-    </Appbar.Header>
+    <>
+      <Appbar.Header style={tw`mt-0`} >
+        <Appbar.Content title="10xTrucks"  style={{alignItems:'center'}}/>
+        <Appbar.Action icon="logout" onPress={_handleMore} />
+      </Appbar.Header>
+    </>
   );
 };
 

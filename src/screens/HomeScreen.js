@@ -73,7 +73,6 @@ export default function HomeScreen({ navigation }) {
 
   return (
     <>
-      <Header />
       <View style={{ flex: 1 }}>
         <ScrollView style={{backgroundColor:'#ffffff'}}>
         <View style={tw`pb-4 mx-auto`}>

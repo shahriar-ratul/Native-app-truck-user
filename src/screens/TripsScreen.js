@@ -29,6 +29,7 @@ const TripsScreen = () => {
         headers: header,
       });
       if (response.data.success == true) {
+        // console.log(data)
         setPage(response.data.meta.current_page);
         setTotalPage(response.data.meta.last_page);
         setData(response.data.data.trips);
