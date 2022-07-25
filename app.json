@@ -19,7 +19,7 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "app.trucks",
+      "bundleIdentifier": "user.trucks",
       "config":{
         "googleMapsApiKey":"AIzaSyBvmhx8TzRvMn2knRFl8HzcSSKDhxyffOI"
       }
@@ -30,7 +30,7 @@
         "foregroundImage": "./src/assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
       },
-      "package": "app.trucks",
+      "package": "user.trucks",
       "config":{
         "googleMaps":{
           "apiKey":"AIzaSyBvmhx8TzRvMn2knRFl8HzcSSKDhxyffOI"
