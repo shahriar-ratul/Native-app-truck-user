@@ -12,21 +12,22 @@ const TripDetailsScreen = ({route}) => {
   return (
     <Card>
     <Card.Content style={{
-      alignItems: 'center',
+      alignItems: 'left',
     }}>
       <Title>Trip Details</Title>
       <Title>Status: {trip.current_status}</Title>
       <Paragraph>Start: {trip.start_location}</Paragraph>
       <Paragraph>End: {trip.end_location}</Paragraph>
-      <Paragraph>Status: {trip.status}</Paragraph>
-      <Paragraph>Distance: {trip.distance}</Paragraph>
-      <Paragraph>Total: {trip.total}</Paragraph>
+      <Paragraph>Distance: {trip.distance} mile</Paragraph>
+      <Paragraph>Total: $ {trip.total}</Paragraph>
       
     
     </Card.Content>
+    {trip.driver && (
     <Card.Content style={{
       alignItems: 'center',
     }}>
+   
       <Title>Driver Info</Title>
       <Title>Name: {trip?.driver?.first_name} {trip?.driver?.last_name} </Title>
       <Title>Phone: {trip?.driver?.mobile}</Title>
@@ -40,8 +41,8 @@ const TripDetailsScreen = ({route}) => {
       }} >
         Call Driver
       </Button>
-
     </Card.Content>
+    )}
   </Card>
   );
 };

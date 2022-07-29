@@ -143,6 +143,8 @@ export default function NewPackageScreen({ navigation }) {
       data.append("hazardous", hazardous);
       data.append("fastload", fastload);
 
+      // console.log(data);
+
       const response = await axios({
         method: "post",
         url: url,
