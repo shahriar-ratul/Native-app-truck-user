@@ -152,6 +152,7 @@ export default function NewPackageScreen({ navigation }) {
         headers: header,
       });
 
+
       if (response.data.success === true) {
         showAlert({title:"Success",message:response.data.message})
       }else {
@@ -162,7 +163,7 @@ export default function NewPackageScreen({ navigation }) {
 
       // console.log(response);
     } catch (error) {
-      console.log(error);
+      console.log(error.response);
     }
   };
 
