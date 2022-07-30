@@ -175,9 +175,6 @@ export default function NewPackageScreen({ navigation }) {
         weight: "",
       }}
       validationSchema={Yup.object().shape({
-        notes: Yup.string()
-          .max(30, "Must be 50 characters or less")
-          .required("Please enter your Notes"),
         weight: Yup.string().required("Please enter your weight"),
       })}
       onSubmit={async (values) => {

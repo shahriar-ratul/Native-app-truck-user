@@ -24,14 +24,9 @@ const authStore = (set) => ({
 })
 
 
-const createAuthStore = create(
-    devtools(
-        persist(authStore, {
-            name: "Auth",
+const createAuthStore = create(authStore, {
+            name: "userAuth",
             getStorage: () => AsyncStorage,
-              
         })
-    )
-)
 
 export default createAuthStore;

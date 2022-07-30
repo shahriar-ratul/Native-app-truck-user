@@ -73,7 +73,7 @@ const LocationStore =(set,get) => ({
 // )
 const userLocationStore = create(
     LocationStore, {
-        name: "Location",
+        name: "LocationUser",
         getStorage: () => AsyncStorage,
     }
 )
