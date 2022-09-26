@@ -12,13 +12,14 @@ import * as Animatable from "react-native-animatable";
 import { LinearGradient } from "expo-linear-gradient";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import { useTheme } from "@react-navigation/native";
+import { light, primary, secondary, textBlack, textWhite, white } from "../config/color";
 
 const SplashScreen = ({ navigation }) => {
   const { colors } = useTheme();
 
   return (
     <View style={styles.container}>
-      <StatusBar backgroundColor="#03baab" barStyle="light-content" />
+      <StatusBar backgroundColor={primary} barStyle="light-content" />
       <View style={styles.header}>
         <Animatable.Image
           animation="bounceIn"
@@ -52,11 +53,11 @@ const SplashScreen = ({ navigation }) => {
         <View style={styles.button}>
           <TouchableOpacity onPress={() => navigation.navigate("Login")}>
             <LinearGradient
-              colors={["#08d4c4", "#01ab9d"]}
+              colors={[secondary]}
               style={styles.signIn}
             >
               <Text style={styles.textSign}>Get Started</Text>
-              <MaterialIcons name="navigate-next" color="#fff" size={20} />
+              <MaterialIcons name="navigate-next" color={white} size={20} />
             </LinearGradient>
           </TouchableOpacity>
         </View>
@@ -73,7 +74,7 @@ const height_logo = height * 0.28;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#D8E3E8",
+    backgroundColor: light,
   },
   header: {
     flex: 2,
@@ -82,7 +83,7 @@ const styles = StyleSheet.create({
   },
   footer: {
     flex: 1,
-    backgroundColor: "#F5F5F5",
+    backgroundColor: white,
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,
     paddingVertical: 50,
@@ -93,13 +94,15 @@ const styles = StyleSheet.create({
     height: height_logo,
   },
   title: {
-    color: "#05375a",
+    color: textBlack,
     fontSize: 24,
     fontWeight: "bold",
   },
   text: {
     color: "grey",
     marginTop: 5,
+    fontWeight: "bold",
+    fontSize: 18,
   },
   button: {
     alignItems: "flex-end",
@@ -107,14 +110,14 @@ const styles = StyleSheet.create({
   },
   signIn: {
     width: 150,
-    height: 40,
+    height: 60,
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 50,
     flexDirection: "row",
   },
   textSign: {
-    color: "white",
+    color: textWhite,
     fontWeight: "bold",
   },
 });

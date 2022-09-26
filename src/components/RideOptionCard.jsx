@@ -109,46 +109,35 @@ const RideOptionsCard = () => {
       <SafeAreaView style={tw`h-2/5 bg-white`}>
         <View style={tw`p-5`}>
           <Text style={styles.title}>
-            Confirm Your Trip - {travelTimeInformation?.distance?.text}
+            Details
           </Text>
         </View>
-        <FlatList
-          data={data}
-          keyExtractor={(item) => item.id}
-          scrollEnabled={false}
-          renderItem={({ item: { id, title }, item }) => (
-            <TouchableOpacity
-              onPress={() => {
-                setSelected(title);
-              }}
-              style={tw`flex-row items-center justify-between px-5 ${
-                title === selected && "bg-gray-200"
-              }`}
-            >
-              <View style={tw`flex-row items-center p-5`}>
-                <MaterialCommunityIcons
-                  name="truck-fast"
-                  size={35}
-                  color="black"
-                  style={tw`mr-5`}
-                />
-                <View>
-                  <Text style={tw`text-xl font-semibold`}>{title}</Text>
-                  <Text style={tw`text-blue-400`}>
-                    Time: {travelTimeInformation?.duration?.text}
-                  </Text>
-                </View>
-              </View>
-              <Text style={tw`text-xl`}>
-                {new Intl.NumberFormat("en-US", {
-                  style: "currency",
-                  currency: "USD",
-                  // currencyDisplay: "",
-                }).format(price)}
-              </Text>
-            </TouchableOpacity>
-          )}
-        />
+
+        <View style={tw`flex-row items-center p-5`}>
+
+          <View>
+            <Text style={tw`text-xs`}>
+              {startDescription} - {endDescription}
+
+            </Text>
+            <Text>
+              Time: {travelTimeInformation?.duration?.text}
+            </Text>
+            <Text>
+              Distance : {travelTimeInformation?.distance?.text}
+            </Text>
+            <Text style={tw`text-xl`}>
+              {new Intl.NumberFormat("en-US", {
+                style: "currency",
+                currency: "USD",
+                // currencyDisplay: "",
+              }).format(price)}
+            </Text>
+          </View>
+        </View>
+
+        
+        
 
         <View>
           <TouchableOpacity
@@ -156,7 +145,7 @@ const RideOptionsCard = () => {
             style={tw`h-16 bg-black py-3 m-3 justify-center`}
           >
             <Text style={tw`text-center text-white text-xl`}>
-              {!selected ? "Confirm" : `Confirm ${selected}`}
+              Book Now
             </Text>
           </TouchableOpacity>
         </View>

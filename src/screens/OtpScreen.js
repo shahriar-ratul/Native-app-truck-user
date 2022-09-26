@@ -9,6 +9,7 @@ import * as Yup from "yup";
 import createAuthStore from "../store/AuthStore";
 import axios from "axios";
 import { BASE_URL } from "../config";
+import { secondary, textBlack, textRed } from "../config/color";
 export default function OtpScreen({ navigation }) {
   const [error, setError] = useState(null);
   const [fontsLoaded] = useFonts({
@@ -70,7 +71,7 @@ export default function OtpScreen({ navigation }) {
               fontFamily: "Roboto-Medium",
               fontSize: 20,
               fontWeight: "500",
-              color: "blue",
+              color: textBlack,
               marginBottom: 15,
               textAlign: "center",
             }}
@@ -80,21 +81,22 @@ export default function OtpScreen({ navigation }) {
           <View>
             {error && (
               <Text
-                style={{ fontSize: 12, color: "#FF0D10", textAlign: "center" }}
+                style={{ fontSize: 12, color: textRed, textAlign: "center" }}
               >
                 {error}
               </Text>
             )}
 
             <View style={{ display: "flex", flexDirection: "row" }}>
-              <IconButton icon="phone" size={30}  color="#FF4466" />
+              <IconButton icon="phone" size={30}  color={textRed} />
               <TextInput
                 style={{ width: "80%" }}
                 label="phone"
                 mode="flat"
+                outlineColor={secondary}
                 selectTextOnFocus={true}
                 placeholder="Enter your phone"
-                placeholderTextColor="black"
+                placeholderTextColor={textBlack}
                 keyboardType="phone-pad"
                 onChangeText={handleChange("phone")}
                 onBlur={() => setFieldTouched("phone")}
@@ -104,7 +106,7 @@ export default function OtpScreen({ navigation }) {
 
             {touched.phone && errors.phone && (
               <Text
-                style={{ fontSize: 12, color: "#FF0D10", textAlign: "center" }}
+                style={{ fontSize: 12, color: textRed, textAlign: "center" }}
               >
                 {errors.phone}
               </Text>
@@ -115,12 +117,11 @@ export default function OtpScreen({ navigation }) {
             >
               <Button
                 style={{ width: "50%" }}
-                icon="login"
                 mode="contained"
                 onPress={handleSubmit}
-                color="#5071F1"
+                color={secondary}
               >
-                Register
+                Send OTP
               </Button>
             </View>
             <View
@@ -131,7 +132,7 @@ export default function OtpScreen({ navigation }) {
                 </Text>
               <Button
                 style={{ width: "50%" }}
-                icon="login"
+                color={textRed}
                 mode="text"
                 onPress={() => navigation.navigate("Login")}
               >

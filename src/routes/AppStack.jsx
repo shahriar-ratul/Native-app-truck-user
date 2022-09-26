@@ -16,6 +16,7 @@ import InvoiceDetailsScreen from "../screens/InvoiceDetailsScreen";
 import TripDetailsScreen from "../screens/TripDetailsScreen";
 import createAuthStore from "../store/AuthStore";
 import userLocationStore from "../store/UserLocation";
+import { primary, textWhite } from "../config/color";
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -62,7 +63,9 @@ const _handleMore = async () => {
 
 
   return (
-    <Drawer.Navigator initialRouteName="Home" drawerContent={props => {
+    <Drawer.Navigator 
+    
+    initialRouteName="Home" drawerContent={props => {
       return (
         <DrawerContentScrollView {...props}>
           <DrawerItemList {...props} />
@@ -71,10 +74,10 @@ const _handleMore = async () => {
       )
     }}>
       <Drawer.Screen name="Home" component={HomeScreen} />
-      <Drawer.Screen name="MapScreen" component={MapScreen} />
-      <Drawer.Screen name="Invoices" component={InvoiceScreen} />
-      <Drawer.Screen name="Trips" component={TripsScreen} />
-      <Drawer.Screen name="Packages" component={PackageScreen} />
+      <Drawer.Screen name="New Trip" component={MapScreen} />
+      <Drawer.Screen name="Invoices List" component={InvoiceScreen} />
+      <Drawer.Screen name="Trips History" component={TripsScreen} />
+      <Drawer.Screen name="Load History" component={PackageScreen} />
       
     </Drawer.Navigator>
   );
@@ -92,9 +95,9 @@ const AppStack = () => {
         options={{
           title: "10xTrucks",
           headerStyle: {
-            backgroundColor: "#03baab",
+            backgroundColor: primary,
           },
-          headerTintColor: "#fff",
+          headerTintColor: textWhite,
           headerTitleAlign: "center",
           headerTitleStyle: {
             fontWeight: "bold",
@@ -107,9 +110,9 @@ const AppStack = () => {
         options={{
           title: "Get a Ride",
           headerStyle: {
-            backgroundColor: "#03baab",
+            backgroundColor: primary,
           },
-          headerTintColor: "#fff",
+          headerTintColor: textWhite,
           headerTitleAlign: "center",
           headerTitleStyle: {
             fontWeight: "bold",
@@ -122,9 +125,9 @@ const AppStack = () => {
         options={{
           title: "Invoices",
           headerStyle: {
-            backgroundColor: "#03baab",
+            backgroundColor: primary,
           },
-          headerTintColor: "#fff",
+          headerTintColor: textWhite,
           headerTitleAlign: "center",
           headerTitleStyle: {
             fontWeight: "bold",
@@ -137,9 +140,9 @@ const AppStack = () => {
         options={{
           title: "Invoices Details",
           headerStyle: {
-            backgroundColor: "#f3b344",
+            backgroundColor: primary,
           },
-          headerTintColor: "#fff",
+          headerTintColor: textWhite,
           headerTitleAlign: "center",
           headerTitleStyle: {
             fontWeight: "bold",
@@ -153,9 +156,9 @@ const AppStack = () => {
         options={{
           title: "Details",
           headerStyle: {
-            backgroundColor: "#f3b344",
+            backgroundColor: primary,
           },
-          headerTintColor: "#fff",
+          headerTintColor: textWhite,
           headerTitleAlign: "center",
           headerTitleStyle: {
             fontWeight: "bold",
@@ -170,9 +173,9 @@ const AppStack = () => {
         options={{
           title: "Trips",
           headerStyle: {
-            backgroundColor: "#03baab",
+            backgroundColor: primary,
           },
-          headerTintColor: "#fff",
+          headerTintColor: textWhite,
           headerTitleAlign: "center",
           headerTitleStyle: {
             fontWeight: "bold",
@@ -186,9 +189,9 @@ const AppStack = () => {
         options={{
           title: "Package",
           headerStyle: {
-            backgroundColor: "#03baab",
+            backgroundColor: primary,
           },
-          headerTintColor: "#fff",
+          headerTintColor: textWhite,
           headerTitleAlign: "center",
           headerTitleStyle: {
             fontWeight: "bold",
@@ -201,9 +204,9 @@ const AppStack = () => {
         options={{
           title: "New Packages",
           headerStyle: {
-            backgroundColor: "#03baab",
+            backgroundColor: primary,
           },
-          headerTintColor: "#fff",
+          headerTintColor: textWhite,
           headerTitleAlign: "center",
           headerTitleStyle: {
             fontWeight: "bold",

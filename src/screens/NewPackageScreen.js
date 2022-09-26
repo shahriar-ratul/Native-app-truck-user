@@ -23,6 +23,8 @@ import { BASE_URL, GOOGLE_MAP_API_KEY } from "../config";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 import { TouchableOpacity } from "react-native-web";
 import { Checkbox } from 'react-native-paper';
+import { Inter_100Thin } from "@expo-google-fonts/inter";
+import { black, secondary, textRed, white } from "../config/color";
 
 export default function NewPackageScreen({ navigation }) {
   const [error, setError] = useState(null);
@@ -41,31 +43,33 @@ export default function NewPackageScreen({ navigation }) {
   const [stackable, setStackable] = useState(false);
   const [dockLevel, setDockLevel] = useState(false);
   const [hazardous, setHazardous] = useState(false);
+  const [pieces, setPieces] = useState(null);
+  const [dims, setDims] = useState(null);
 
 
 
-  const showAlert = ({title,message}) =>
-  Alert.alert(
-    title,
-    message,
-    [
-      {
-        text: "Go To Home",
-        onPress: () => {
-          navigation.navigate("Home")
+  const showAlert = ({ title, message }) =>
+    Alert.alert(
+      title,
+      message,
+      [
+        {
+          text: "Go To Home",
+          onPress: () => {
+            navigation.navigate("Home")
+          },
+          style: "default",
         },
-        style: "default",
-      },
-    ],
-    {
-      cancelable: true,
-      onDismiss: () =>{
-        console.log("dismissed")
-        navigation.navigate("Home")
+      ],
+      {
+        cancelable: true,
+        onDismiss: () => {
+          console.log("dismissed")
+          navigation.navigate("Home")
+        }
+
       }
-       
-    }
-  );
+    );
 
 
 
@@ -85,8 +89,8 @@ export default function NewPackageScreen({ navigation }) {
               if (res.data) {
                 if (res.data.rows[0].elements[0].status === "OK") {
                   let value = res.data.rows[0].elements[0].distance.value;
-                  let data = value/1609 * 1;
-                  setDistance(value/1609);
+                  let data = value / 1609 * 1;
+                  setDistance(value / 1609);
                   setPrice(data);
                   setTravelInfo(res.data.rows[0].elements[0]);
                   // console.log(res.data.rows[0].elements[0].distance.value)
@@ -142,6 +146,9 @@ export default function NewPackageScreen({ navigation }) {
       data.append("dock_level", dockLevel);
       data.append("hazardous", hazardous);
       data.append("fastload", fastload);
+      data.append("pieces", pieces);
+      data.append("dims", dims);
+
 
       // console.log(data);
 
@@ -152,11 +159,12 @@ export default function NewPackageScreen({ navigation }) {
         headers: header,
       });
 
+      // console.log(response.data);
 
       if (response.data.success === true) {
-        showAlert({title:"Success",message:response.data.message})
-      }else {
-        showAlert({title:"Error",message:response.data.message})
+        showAlert({ title: "Success", message: response.data.message })
+      } else {
+        showAlert({ title: "Error", message: response.data.message })
       }
 
       // const response = await axios.post(url, data, header)
@@ -174,13 +182,19 @@ export default function NewPackageScreen({ navigation }) {
       initialValues={{
         notes: "",
         weight: "",
+        pieces: "",
+        dims:"",
       }}
       validationSchema={Yup.object().shape({
         weight: Yup.string().required("Please enter your weight"),
+        pieces: Yup.string().required("Please enter your pieces"),
+        dims: Yup.string().required("Please enter your dims"),
       })}
       onSubmit={async (values) => {
         setWeight(values.weight);
         setNotes(values.notes);
+        setPieces(values.pieces);
+        setDims(values.dims);
         await handleSubmit();
       }}
     >
@@ -193,201 +207,325 @@ export default function NewPackageScreen({ navigation }) {
         isValid,
         handleSubmit,
       }) => (
-          <KeyboardAvoidingView style={{ flex: 1, justifyContent: "flex-start" }}>
-            <View style={tw`px-4`}>
-              {error && (
-                <Text
-                  style={{
-                    fontSize: 16,
-                    color: "#FF0D10",
-                    textAlign: "center",
-                  }}
-                >
-                  {error}
-                </Text>
-              )}
-              <View>
-                <Text style={tw`text-sm pb-2`}>Pick Up At:</Text>
-                <GooglePlacesAutocomplete
-                  placeholder={
-                    startDescription ? startDescription : "Pick Up Location"
-                  }
-                  debounce={200}
-                  styles={toInputBoxStyles}
-                  onPress={(data, details = null) => {
-                    setStartLocation(details.geometry.location);
-                    setStartDescription(data.description);
-                  }}
-                  fetchDetails={true}
-                  minLength={2}
-                  enablePoweredByContainer={false}
-                  nearbyPlacesAPI="GooglePlacesSearch"
-                  query={{
-                    key: GOOGLE_MAP_API_KEY,
-                    language: "en",
-                  }}
-                />
-              </View>
-
-              <View>
-                <Text style={tw`text-sm pb-2`}>Deliver To:</Text>
-                <GooglePlacesAutocomplete
-                  placeholder={
-                    endDescription ? endDescription : "Deliver Location"
-                  }
-                  debounce={200}
-                  styles={toInputBoxStyles}
-                  onPress={(data, details = null) => {
-                    setEndLocation(details.geometry.location);
-                    setEndDescription(data.description);
-                  }}
-                  fetchDetails={true}
-                  minLength={2}
-                  enablePoweredByContainer={false}
-                  nearbyPlacesAPI="GooglePlacesSearch"
-                  query={{
-                    key: GOOGLE_MAP_API_KEY,
-                    language: "en",
-                  }}
-                />
-              </View>
-              <View style={{ display: "flex", flexDirection: "row" }}>
-                <TextInput
-                  multiline={true}
-                  numberOfLines={3}
-                  style={tw`mb-2 w-full`}
-                  label="Notes"
-                  mode="flat"
-                  selectTextOnFocus={true}
-                  placeholder="Enter your Notes"
-                  placeholderTextColor="black"
-                  keyboardType="default"
-                  onChangeText={handleChange("notes")}
-                  onBlur={() => setFieldTouched("notes")}
-                  value={values.notes}
-                />
-              </View>
-
-
-              {touched.notes && errors.notes && (
-                <Text
-                  style={{
-                    fontSize: 12,
-                    color: "#FF0D10",
-                    textAlign: "center",
-                  }}
-                >
-                  {errors.notes}
-                </Text>
-              )}
-
-              <View style={{ display: "flex", flexDirection: "row" }}>
-                <TextInput
-                  style={tw`mb-2 w-full`}
-                  label="weight"
-                  mode="flat"
-                  selectTextOnFocus={true}
-                  placeholder="Enter your weight"
-                  placeholderTextColor="black"
-                  keyboardType="default"
-                  onChangeText={handleChange("weight")}
-                  onBlur={() => setFieldTouched("weight")}
-                  value={values.weight}
-                />
-              </View>
-
-              {touched.weight && errors.weight && (
-                <Text
-                  style={{
-                    fontSize: 12,
-                    color: "#FF0D10",
-                    textAlign: "center",
-                  }}
-                >
-                  {errors.weight}
-                </Text>
-              )}
-             
-              <View style={tw`flex mt-2`}>
-                <Text style={tw`pb-2 font-bold text-xl`}>
-                  Distance : {travelInfo?.distance.text}
-                </Text>
-                {/* <Text style={tw`pb-2 font-bold text-xl`}>
-                  Price :{" "}
-                  {new Intl.NumberFormat("en-US", {
-                    style: "currency",
-                    currency: "USD",
-                    // currencyDisplay: "",
-                  }).format(price)}
-                </Text> */}
-              </View>
-
-              <View>
-                <Checkbox.Item color="blue" label="Stackable" 
-                   status={stackable ? 'checked' : 'unchecked'}
-                    onPress={() => {
-                      setStackable(!stackable);
-                    }} 
-                 style={{
-                  backgroundColor: "#fff",
-                  zIndex: 1,
-                }} />
-              </View>
-              <View>
-                <Checkbox.Item color="blue" label="Hazardous" 
-                   status={hazardous ? 'checked' : 'unchecked'}
-                    onPress={() => {
-                      setHazardous(!hazardous);
-                    }} 
-                 style={{
-                  backgroundColor: "#fff",
-                }} />
-              </View>
-              <View>
-                <Checkbox.Item color="blue" label="Fast Load" 
-                   status={fastload ? 'checked' : 'unchecked'}
-                    onPress={() => {
-                      setFastload(!fastload);
-                    }} 
-                 style={{
-                  backgroundColor: "#fff",
-                }} />
-              </View>
-              <View>
-                <Checkbox.Item color="blue" label="Dock Level" 
-                   status={dockLevel ? 'checked' : 'unchecked'}
-                    onPress={() => {
-                      setDockLevel(!dockLevel);
-                    }} 
-                 style={{
-                  backgroundColor: "#fff",
-                }} />
-              </View>
-              
-              <View>
-                <Checkbox.Item color="blue" label="Cash On Delivery" status="checked" style={{
-                  backgroundColor: "#fff",
-                }} />
-              </View>
-
-              <View
-                style={{
-                  alignItems: "center",
-                  marginTop: 30,
-                  marginBottom: 30,
-                }}
+        <KeyboardAvoidingView style={{ flex: 1, justifyContent: "flex-start" }}>
+            <View style={{ flex: 1,marginTop:30, backgroundColor: "#fff"   }}>
+              <ScrollView style={{ flex: 1, backgroundColor: "#fff" }}
+                nestedScrollEnabled={true}
               >
-                <Button
-                  style={{ width: "50%" }}
-                  icon="login"
-                  mode="contained"
-                  onPress={handleSubmit}
-                >
-                  Submit
-                </Button>
-              </View>
+
+                <View style={tw`px-4`}>
+                  {error && (
+                    <Text
+                      style={{
+                        fontSize: 16,
+                        color: textRed,
+                        textAlign: "center",
+                      }}
+                    >
+                      {error}
+                    </Text>
+                  )}
+                  <View>
+                    <Text style={tw`text-sm pb-2 font-bold`}>Pick Up At:</Text>
+                    <ScrollView
+                      horizontal={true}
+                      nestedScrollEnabled={true}
+                      showsHorizontalScrollIndicator={false}
+                      keyboardShouldPersistTaps='handled'
+                      contentContainerStyle={{
+                        flexGrow: 1,
+                        justifyContent: 'center',
+                      
+                      }}
+                    >
+                    <View
+                      style={{
+                        width: "100%",
+                      }}
+                      >
+                      <GooglePlacesAutocomplete
+                        placeholder={
+                          startDescription ? startDescription : "Pick Up Location"
+                        }
+                        debounce={200}
+                        styles={toInputBoxStyles}
+                        onPress={(data, details = null) => {
+                          setStartLocation(details.geometry.location);
+                          setStartDescription(data.description);
+                        }}
+                        fetchDetails={true}
+                        minLength={2}
+                        enablePoweredByContainer={false}
+                        nearbyPlacesAPI="GooglePlacesSearch"
+                        query={{
+                          key: GOOGLE_MAP_API_KEY,
+                          language: "en",
+                        }}
+                      />
+                    </View>
+
+                    </ScrollView>
+                  </View>
+
+                  <View>
+                  <Text style={tw`text-sm pb-2 font-bold`}>Deliver To:</Text>
+                    <ScrollView
+                      horizontal={true}
+                      nestedScrollEnabled={true}
+                      showsHorizontalScrollIndicator={false}
+                      keyboardShouldPersistTaps='handled'
+                      contentContainerStyle={{
+                        flexGrow: 1,
+                        justifyContent: 'center',
+                      
+                      }}
+                    >
+                    <View
+                      style={{
+                        width: "100%",
+                      }}
+                      >
+
+                      <GooglePlacesAutocomplete
+                        placeholder={
+                          endDescription ? endDescription : "Deliver Location"
+                        }
+                        debounce={200}
+                        styles={toInputBoxStyles}
+                        onPress={(data, details = null) => {
+                          setEndLocation(details.geometry.location);
+                          setEndDescription(data.description);
+                        }}
+                        fetchDetails={true}
+                        minLength={2}
+                        enablePoweredByContainer={false}
+                        nearbyPlacesAPI="GooglePlacesSearch"
+                        query={{
+                          key: GOOGLE_MAP_API_KEY,
+                          language: "en",
+                        }}
+                       
+                      />
+                      </View>
+                    </ScrollView>
+
+                  </View>
+
+                  <View style={{ display: "flex", flexDirection: "column" }}>
+                  <Text style={tw`text-sm pb-2 font-bold`}>Notes:</Text>
+                    <TextInput
+                      multiline={true}
+                      numberOfLines={6}
+                      style={tw`mb-2 w-full`}
+                      label="Notes"
+                      mode="flat"
+                      selectTextOnFocus={true}
+                      placeholder="Enter your Notes"
+                      placeholderTextColor="black"
+                      keyboardType="default"
+                      onChangeText={handleChange("notes")}
+                      onBlur={() => setFieldTouched("notes")}
+                      value={values.notes}
+                    />
+                  </View>
+
+
+                  {touched.notes && errors.notes && (
+                    <Text
+                      style={{
+                        fontSize: 12,
+                        color: textRed,
+                        textAlign: "center",
+                      }}
+                    >
+                      {errors.notes}
+                    </Text>
+                  )}
+
+
+                  {touched.dims && errors.dims && (
+                    <Text
+                      style={{
+                        fontSize: 12,
+                        color: textRed,
+                        textAlign: "center",
+                      }}
+                    >
+                      {errors.dims}
+                    </Text>
+                  )}
+       
+
+                  {touched.pieces && errors.pieces && (
+                    <Text
+                      style={{
+                        fontSize: 12,
+                        color: textRed,
+                        textAlign: "center",
+                      }}
+                    >
+                      {errors.pieces}
+                    </Text>
+                  )}
+
+                  {touched.weight && errors.weight && (
+                    <Text
+                      style={{
+                        fontSize: 12,
+                        color: textRed,
+                        textAlign: "center",
+                      }}
+                    >
+                      {errors.weight}
+                    </Text>
+                  )}
+
+                  <View style={tw`flex flex-row mt-2 mb-3`}>
+                  <View style={tw`flex mt-2 mr-3`}>
+                      
+                    <Text style={tw`pb-2 font-bold text-sm`}>
+                      Distance : 
+                    </Text> 
+                    <Text style={tw`pb-2 font-bold text-md p-5 border-2`}>
+                    {travelInfo?.distance.text}
+                    </Text>
+
+                  </View>
+                  <View style={tw`flex mt-2 mr-3`}>
+                  <Text style={tw`pb-2 font-bold text-sm`}>
+                      Weight : 
+                    </Text> 
+                  <TextInput
+                      style={tw`mb-2 w-20`}
+                      // label="weight"
+                      mode="flat"
+                      selectTextOnFocus={true}
+                      keyboardType="default"
+                      onChangeText={handleChange("weight")}
+                      onBlur={() => setFieldTouched("weight")}
+                      value={values.weight}
+                    />
+                    </View>
+                    <View style={tw`flex mt-2 mr-3`}>
+                  <Text style={tw`pb-2 font-bold text-sm`}>
+                      Pieces : 
+                    </Text> 
+                  <TextInput
+                      style={tw`mb-2 w-20`}
+                      // label="weight"
+                      mode="flat"
+                      selectTextOnFocus={true}
+                      keyboardType="default"
+                      onChangeText={handleChange("pieces")}
+                      onBlur={() => setFieldTouched("pieces")}
+                      value={values.pieces}
+                    />
+                    </View>
+                    <View style={tw`flex mt-2 mr-3`}>
+                  <Text style={tw`pb-2 font-bold text-sm`}>
+                      Dims : 
+                    </Text> 
+                  <TextInput
+                      style={tw`mb-2 w-20`}
+                      // label="weight"
+                      mode="flat"
+                      selectTextOnFocus={true}
+                      keyboardType="default"
+                      onChangeText={handleChange("dims")}
+                      onBlur={() => setFieldTouched("dims")}
+                      value={values.dims}
+                    />
+                    </View>
+                  </View>
+
+                  <View>
+                    <Checkbox.Item color="blue" label="Stackable"
+                      status={stackable ? 'checked' : 'unchecked'}
+                      onPress={() => {
+                        setStackable(!stackable);
+                      }}
+                      style={{
+                        backgroundColor: white,
+                        zIndex: 1,
+                        borderWidth: 1,
+                        marginBottom:15,
+                        borderColor: black
+                      }} />
+                  </View>
+                  <View>
+                    <Checkbox.Item color="blue" label="Hazardous"
+                      status={hazardous ? 'checked' : 'unchecked'}
+                      onPress={() => {
+                        setHazardous(!hazardous);
+                      }}
+                      style={{
+                        backgroundColor: white,
+                        zIndex: 1,
+                        borderWidth: 1,
+                        marginBottom:15,
+                        borderColor: black
+                      }} />
+                  </View>
+                  <View>
+                    <Checkbox.Item color="blue" label="Fast Load"
+                      status={fastload ? 'checked' : 'unchecked'}
+                      onPress={() => {
+                        setFastload(!fastload);
+                      }}
+                      style={{
+                        backgroundColor: white,
+                        zIndex: 1,
+                        borderWidth: 1,
+                        marginBottom:15,
+                        borderColor: black,
+                      }} />
+                  </View>
+                  <View>
+                    <Checkbox.Item color="blue" label="Dock Level"
+                      status={dockLevel ? 'checked' : 'unchecked'}
+                      onPress={() => {
+                        setDockLevel(!dockLevel);
+                      }}
+                      style={{
+                        backgroundColor: white,
+                        zIndex: 1,
+                        borderWidth: 1,
+                        marginBottom:15,
+                        borderColor: black
+                      }} />
+                  </View>
+
+                  <View>
+                    <Checkbox.Item color="blue" label="Cash On Delivery" status="checked" style={{
+                      marginBottom:15,
+                      backgroundColor: white,
+                      zIndex: 1,
+                      borderWidth: 1,
+                      marginBottom:15,
+                      borderColor: black
+                    }} />
+                  </View>
+
+                  <View
+                    style={{
+                      alignItems: "center",
+                      marginTop: 30,
+                      marginBottom: 30,
+                    }}
+                  >
+                    <Button
+                      style={{ width: "50%" }}
+                      color={secondary}
+                      mode="contained"
+                      onPress={handleSubmit}
+                    >
+                      Submit
+                    </Button>
+                  </View>
+                </View>
+              </ScrollView>
             </View>
-          </KeyboardAvoidingView>
+        </KeyboardAvoidingView>
       )}
     </Formik>
 
@@ -420,7 +558,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "center",
     height: "10%",
-    backgroundColor: "#fff",
+    backgroundColor: white,
   },
   confirmLocation: {
     position: "absolute",

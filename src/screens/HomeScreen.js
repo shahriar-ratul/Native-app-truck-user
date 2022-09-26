@@ -13,11 +13,10 @@ import {
 import tw from "twrnc";
 import Loading from "../components/Loading";
 
-
-import userLocationStore from "../store/UserLocation";
-
-import Header from "../components/Header";
+import { Dimensions } from 'react-native';
+import Carousel from 'react-native-reanimated-carousel';
 import { Avatar, Card, IconButton } from "react-native-paper";
+import { primary, secondary, textLight, white } from "../config/color";
 
 export default function HomeScreen({ navigation }) {
 
@@ -30,27 +29,29 @@ export default function HomeScreen({ navigation }) {
     return <Loading />;
   }
 
+  const width = Dimensions.get('window').width;
+
   const data = [
     {
       id: "1",
-      title: "Book a New Trip",
+      title: "Book Load",
       subtitle: "Book a trucks to your destination",
       icon: 'truck',
-      screen: "MapScreen",
-    }, 
-    {
-      id: "7",
-      title: "New Packages",
-      subtitle: "Send your packages to your customers",
-      icon: 'truck-cargo-container',
       screen: "NewPackage",
-    },
+    }, 
+    // {
+    //   id: "7",
+    //   title: "New Packages",
+    //   subtitle: "Send your packages to your customers",
+    //   icon: 'truck-cargo-container',
+    //   screen: "NewPackage",
+    // },
     {
       id: "2",
-      title: "Trips",
+      title: "Load History",
       subtitle: "View all your trips",
       icon: 'truck-check',
-      screen: "Trips",
+      screen: "Packages",
     }, 
     {
       id: "3",
@@ -59,13 +60,13 @@ export default function HomeScreen({ navigation }) {
       icon: 'truck',
       screen: "Invoices",
     },
-    {
-      id: "5",
-      title: "Packages",
-      subtitle: "View all your packages",
-      icon: 'truck-cargo-container',
-      screen: "Packages",
-    },
+    // {
+    //   id: "5",
+    //   title: "Packages",
+    //   subtitle: "View all your packages",
+    //   icon: 'truck-cargo-container',
+    //   screen: "Packages",
+    // },
   ];
 
 
@@ -73,14 +74,40 @@ export default function HomeScreen({ navigation }) {
 
   return (
     <>
-      <StatusBar backgroundColor="#03baab" barStyle="light-content" />
+      <StatusBar backgroundColor={secondary} barStyle="light-content" />
       <View style={{ flex: 1 }}>
-        <ScrollView style={{backgroundColor:'#ffffff'}}>
-        <View style={tw`pb-4 mx-auto`}>
-          <Image
-            source={require("./../assets/images/logo.png")}
-            style={{ width: 300, height: 100 }}
-          />
+        <ScrollView style={{backgroundColor:white}}>
+        <View style={{ flex: 1 }}>
+            <Carousel
+                loop
+                width={width}
+                height={width / 2}
+                autoPlay={true}
+                data={[...new Array(6).keys()]}
+                scrollAnimationDuration={1000}
+                onSnapToItem={(index) => {
+                    // console.log('current index:', index)
+                }}
+                
+                renderItem={({ index }) => (
+                    <View
+                        style={{
+                            flex: 1,
+                            // borderWidth: 1,
+                            justifyContent: 'center',
+                        }}
+                    >
+                        {/* <Text style={{ textAlign: 'center', fontSize: 30 }}>
+                           
+                        </Text> */}
+                        <Image
+                            source={require('./../assets/images/ride.png')}
+                            style={{ width: '100%', height: '100%', resizeMode: 'contain' }}
+                        />
+
+                    </View>
+                )}
+            />
         </View>
         
         {data &&
@@ -89,11 +116,18 @@ export default function HomeScreen({ navigation }) {
             <TouchableOpacity     
              key={index} onPress={() => navigation.navigate(item.screen)}>
                  <Card.Title
-                  style={tw`text-center text-2xl p-4 pl-4  mb-4 bg-white rounded-lg`}
+                  style={{
+                    flex: 1,
+                    borderColor: primary,
+                    borderWidth: 3,
+                    borderRadius: 10,
+                    margin: 25,
+                    padding: 10,
+                    textAlign: "center",
+
+                  }}
                   title={item.title}
-                  subtitle={item.subtitle}
-                  left={(props) => <Avatar.Icon {...props} icon={item.icon}/>}
-                  right={(props) => <IconButton {...props} icon="arrow-right-bold-circle" onPress={() => {}} />}
+                  // subtitle={item.subtitle}
                 />
             </TouchableOpacity>
           ))}

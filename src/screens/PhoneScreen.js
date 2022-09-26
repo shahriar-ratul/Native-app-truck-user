@@ -9,12 +9,13 @@ import * as Yup from "yup";
 import createAuthStore from "../store/AuthStore";
 import { BASE_URL } from "../config";
 import axios from "axios";
+import { secondary, textBlack, textRed } from "../config/color";
 export default function PhoneScreen({ navigation }) {
   const [error, setError] = useState(null);
   const phone = createAuthStore((state) => state.phone);
   const successOtpVerify = createAuthStore((state) => state.successOtpVerify);
   const [fontsLoaded] = useFonts({
-    "Roboto-Medium": require("./../assets/fonts/Roboto-Medium.ttf"),
+    "Roboto-Bold": require("./../assets/fonts/Roboto-Bold.ttf"),
   });
 
   if (!fontsLoaded) {
@@ -64,16 +65,16 @@ export default function PhoneScreen({ navigation }) {
           <View style={{ alignItems: "center" }}>
             <Image
               source={require("./../assets/images/logo.png")}
-              style={{ width: 300, height: 100, marginBottom: 30 }}
+              style={{ width: 300, height: 100, marginBottom: 20 }}
             />
           </View>
 
           <Text
             style={{
-              fontFamily: "Roboto-Medium",
-              fontSize: 20,
-              fontWeight: "500",
-              color: "blue",
+              fontFamily: "Roboto-Bold",
+              fontSize: 24,
+              fontWeight: "900",
+              color: secondary,
               marginBottom: 15,
               textAlign: "center",
             }}
@@ -85,14 +86,14 @@ export default function PhoneScreen({ navigation }) {
           <View>
             {error && (
               <Text
-                style={{ fontSize: 12, color: "#FF0D10", textAlign: "center" }}
+                style={{ fontSize: 12, color: textRed, textAlign: "center" }}
               >
                 {error}
               </Text>
             )}
 
             <View style={{ display: "flex", flexDirection: "row" }}>
-              <IconButton icon="key" size={30}  color="#FF4466"  />
+              <IconButton icon="key" size={30}  color={textRed}  />
               <TextInput
                 style={{ width: "80%" }}
                 label="Otp"
@@ -107,7 +108,7 @@ export default function PhoneScreen({ navigation }) {
             </View>
             {touched.otp && errors.otp && (
               <Text
-                style={{ fontSize: 12, color: "#FF0D10", textAlign: "center" }}
+                style={{ fontSize: 12, color: textRed, textAlign: "center" }}
               >
                 {errors.otp}
               </Text>
@@ -118,10 +119,9 @@ export default function PhoneScreen({ navigation }) {
             >
               <Button
                 style={{ width: "50%" }}
-                icon="login"
                 mode="contained"
                 onPress={handleSubmit}
-                color="#5071F1"
+                color={secondary}
               >
                 Submit
               </Button>
@@ -129,13 +129,13 @@ export default function PhoneScreen({ navigation }) {
             <View
               style={{ alignItems: "center", marginTop: 30, marginBottom: 30 }}
             >
-              <Text style={{ fontSize: 16, color: "#333" }}>
+              <Text style={{ fontSize: 16, color: textBlack }}>
                 Already have an account?{" "}
                 </Text>
               <Button
                 style={{ width: "50%" }}
-                icon="login"
                 mode="text"
+                color={textRed}
                 onPress={() => navigation.navigate("Login")}
               >
                 Login
