@@ -386,7 +386,7 @@ export default function NewPackageScreen({ navigation }) {
                     <Text style={tw`pb-2 font-bold text-sm`}>
                       Distance : 
                     </Text> 
-                    <Text style={tw`pb-2 font-bold text-md p-5 border-2`}>
+                    <Text style={tw`pb-2 font-bold  p-5 border-2`}>
                     {travelInfo?.distance.text}
                     </Text>
 

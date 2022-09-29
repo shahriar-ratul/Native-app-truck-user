@@ -187,7 +187,7 @@ const AppStack = () => {
         name="Packages"
         component={PackageScreen}
         options={{
-          title: "Package",
+          title: "Loads",
           headerStyle: {
             backgroundColor: primary,
           },
@@ -202,7 +202,7 @@ const AppStack = () => {
         name="NewPackage"
         component={NewPackageScreen}
         options={{
-          title: "New Packages",
+          title: "New Loads",
           headerStyle: {
             backgroundColor: primary,
           },
